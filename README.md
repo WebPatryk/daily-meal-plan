@@ -1,94 +1,104 @@
-# 10x Astro Starter
+# DailyMeal
 
-A modern, opinionated starter template for building fast, accessible, and AI-friendly web applications.
+A weekly meal-planning web application powered by AI and Supabase.
+
+---
+
+## Table&nbsp;of&nbsp;Contents
+1. [Project Description](#project-description)
+2. [Tech Stack](#tech-stack)
+3. [Getting Started Locally](#getting-started-locally)
+4. [Available Scripts](#available-scripts)
+5. [Project Scope](#project-scope)
+6. [Project Status](#project-status)
+7. [License](#license)
+
+---
+
+## Project Description
+DailyMeal helps physically active people create personalised weekly meal plans. Users can manually add meals or let AI suggest recipes that match their calorie and protein goals. All data are stored securely in Supabase and presented in an accessible UI.
+
+Key capabilities:
+- Weekly planner grid (5 meals × 7 days) focused on the current week.
+- AI meal generation with macronutrient targets.
+- Manual meal editing, including images ≤ 1 MB stored in Supabase Storage.
+- Authentication via email + password (Supabase Auth).
+- Historical view of past weeks.
+
+---
 
 ## Tech Stack
+- **Astro 5** – fast, content-focused framework
+- **React 19** – interactive components
+- **TypeScript 5** – static typing
+- **Tailwind CSS 4** – utility-first styling
+- **shadcn/ui** – accessible component library
+- **Supabase** (PostgreSQL + Storage + Auth) – backend-as-a-service
+- **Openrouter.ai** – access to multiple AI models
+- **Node.js 22.14.0** – runtime (see `.nvmrc`)
 
-- [Astro](https://astro.build/) v5.5.5 - Modern web framework for building fast, content-focused websites
-- [React](https://react.dev/) v19.0.0 - UI library for building interactive components
-- [TypeScript](https://www.typescriptlang.org/) v5 - Type-safe JavaScript
-- [Tailwind CSS](https://tailwindcss.com/) v4.0.17 - Utility-first CSS framework
+---
 
-## Prerequisites
+## Getting Started Locally
+### Prerequisites
+- Node.js 22.14.0 and npm ≥ 10 (or pnpm/yarn if preferred)
+- Supabase project with `SUPABASE_URL` and `SUPABASE_KEY`
 
-- Node.js v22.14.0 (as specified in `.nvmrc`)
-- npm (comes with Node.js)
-
-## Getting Started
-
-1. Clone the repository:
-
+### Installation
 ```bash
-git clone https://github.com/przeprogramowani/10x-astro-starter.git
-cd 10x-astro-starter
+# 1. Clone the repository
+$ git clone https://github.com/your-org/daily-meal-plan.git
+$ cd daily-meal-plan
+
+# 2. Install dependencies
+$ npm install
+
+# 3. Copy environment variables
+$ cp .env.example .env
+# edit .env with your Supabase credentials
+
+# 4. Start the dev server
+$ npm run dev
 ```
+The app will be available at `http://localhost:4321` by default.
 
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Run the development server:
-
-```bash
-npm run dev
-```
-
-4. Build for production:
-
-```bash
-npm run build
-```
+---
 
 ## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint issues
-
-## Project Structure
-
-```md
-.
-├── src/
-│   ├── layouts/    # Astro layouts
-│   ├── pages/      # Astro pages
-│   │   └── api/    # API endpoints
-│   ├── components/ # UI components (Astro & React)
-│   └── assets/     # Static assets
-├── public/         # Public assets
+```bash
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run preview   # Preview the production build locally
+npm run lint      # Run ESLint
+npm run lint:fix  # Fix ESLint issues automatically
+npm run format    # Prettier – format all files
 ```
 
-## AI Development Support
+---
 
-This project is configured with AI development tools to enhance the development experience, providing guidelines for:
+## Project Scope
+### Functional requirements (MVP)
+- User registration & login (email + password).
+- Set daily calorie & protein goals during onboarding and in profile.
+- Validate macro values (1–3000 kcal, 1–300 g protein) on both FE & BE.
+- Weekly planner grid with current week view only.
+- Manual meal addition & editing.
+- AI meal generation (name, macros, ingredients, steps, SVG icon).
+- Image upload ≤ 1 MB stored in Supabase Storage.
+- History tab displaying read-only past weeks.
 
-- Project structure
-- Coding practices
-- Frontend development
-- Styling with Tailwind
-- Accessibility best practices
-- Astro and React guidelines
+### Product boundaries
+- No recipe import from URLs in MVP.
+- No social or sharing features.
+- No offline mode.
+- AI usage limits may be added post-MVP.
 
-### Cursor IDE
+---
 
-The project includes AI rules in `.cursor/rules/` directory that help Cursor IDE understand the project structure and provide better code suggestions.
+## Project Status
+🚧 **MVP in active development** – see the [project board](https://github.com/your-org/daily-meal-plan/projects/1) for progress.
 
-### GitHub Copilot
-
-AI instructions for GitHub Copilot are available in `.github/copilot-instructions.md`
-
-### Windsurf
-
-The `.windsurfrules` file contains AI configuration for Windsurf.
-
-## Contributing
-
-Please follow the AI guidelines and coding practices defined in the AI configuration files when contributing to this project.
+---
 
 ## License
-
-MIT
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.

@@ -53,6 +53,7 @@ const reactConfig = tseslint.config({
     ...eslintPluginReactHooks.configs.recommended.rules,
     "react/react-in-jsx-scope": "off",
     "react-compiler/react-compiler": "error",
+    "prettier/prettier": ["error", { endOfLine: "crlf" }],
   },
 });
 

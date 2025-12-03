@@ -1,0 +1,52 @@
+import { z } from "zod";
+
+/**
+ * Zod schema for validating query parameters for GET /api/weeks endpoint.
+ *
+ * Validates:
+ * - limit: number between 1 and 100 (default: 20)
+ * - offset: non-negative integer (default: 0)
+ * - start_date: ISO date string in YYYY-MM-DD format (optional)
+ * - history: boolean flag to include past weeks (default: false)
+ * - sort: sorting order for start_date (default: "start_date:desc")
+ */
+export const WeeksQuerySchema = z.object({
+  limit: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : 20))
+    .pipe(z.number().int().min(1, "limit must be at least 1").max(100, "limit must be at most 100")),
+
+  offset: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : 0))
+    .pipe(z.number().int().min(0, "offset must be non-negative")),
+
+  start_date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "start_date must be in YYYY-MM-DD format")
+    .optional()
+    .refine(
+      (date) => {
+        if (!date) return true;
+        const parsed = new Date(date);
+        return !isNaN(parsed.getTime());
+      },
+      { message: "start_date must be a valid date" }
+    ),
+
+  history: z
+    .string()
+    .optional()
+    .transform((val) => val === "true")
+    .pipe(z.boolean()),
+
+  sort: z.enum(["start_date:asc", "start_date:desc"]).optional().default("start_date:desc"),
+});
+
+/**
+ * Inferred TypeScript type from the WeeksQuerySchema.
+ * Use this type when working with validated query parameters.
+ */
+export type WeeksQuerySchemaType = z.infer<typeof WeeksQuerySchema>;
