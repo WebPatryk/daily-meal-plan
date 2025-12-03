@@ -103,6 +103,7 @@ export function LoginForm({ onSubmit, redirectTo }: LoginFormProps) {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="twoj@email.com"
               value={formData.email}
@@ -111,6 +112,7 @@ export function LoginForm({ onSubmit, redirectTo }: LoginFormProps) {
               aria-describedby={errors.email ? "email-error" : undefined}
               disabled={isLoading}
               autoComplete="email"
+              required
             />
             {errors.email && (
               <p id="email-error" className="text-sm text-destructive" role="alert">
@@ -125,6 +127,7 @@ export function LoginForm({ onSubmit, redirectTo }: LoginFormProps) {
             </div>
             <Input
               id="password"
+              name="password"
               type="password"
               placeholder="••••••••"
               value={formData.password}
@@ -133,6 +136,7 @@ export function LoginForm({ onSubmit, redirectTo }: LoginFormProps) {
               aria-describedby={errors.password ? "password-error" : undefined}
               disabled={isLoading}
               autoComplete="current-password"
+              required
             />
             {errors.password && (
               <p id="password-error" className="text-sm text-destructive" role="alert">
