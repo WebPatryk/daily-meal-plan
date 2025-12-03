@@ -34,7 +34,7 @@ export default defineConfig({
   // Współdzielone ustawienia dla wszystkich projektów
   use: {
     // URL bazowy dla testów
-    baseURL: process.env.BASE_URL || "http://localhost:4321",
+    baseURL: process.env.BASE_URL || "http://localhost:3000",
 
     // Zbieraj ślady po niepowodzeniach
     trace: "on-first-retry",
@@ -58,7 +58,7 @@ export default defineConfig({
   // Serwer musi być uruchomiony ręcznie: npm run dev
   // webServer: {
   //   command: 'npm run dev',
-  //   url: 'http://localhost:4321',
+  //   url: 'http://localhost:3000',
   //   reuseExistingServer: !process.env.CI,
   //   timeout: 120 * 1000,
   // },

@@ -11,7 +11,10 @@ export class BasePage {
    * Nawiguj do określonej ścieżki
    */
   async goto(path: string) {
-    await this.page.goto(path);
+    await this.page.goto(path, {
+      waitUntil: "networkidle",
+      timeout: 30000,
+    });
   }
 
   /**
