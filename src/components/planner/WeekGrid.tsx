@@ -131,13 +131,7 @@ export function WeekGrid({ cells, onCellClick, caloriesOverLimit = false }: Week
     <div className="space-y-4">
       {/* Navigation controls - visible only when not all days are shown */}
       <div className="flex items-center justify-between lg:hidden">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handlePrevDays}
-          disabled={!canGoPrev}
-          aria-label="Poprzednie dni"
-        >
+        <Button variant="outline" size="sm" onClick={handlePrevDays} disabled={!canGoPrev} aria-label="Poprzednie dni">
           <ChevronLeft className="h-4 w-4 mr-1" />
           Poprzednie
         </Button>
@@ -146,13 +140,7 @@ export function WeekGrid({ cells, onCellClick, caloriesOverLimit = false }: Week
           Dni {dayOffset + 1}-{dayOffset + visibleDays.length} z {DAYS.length}
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleNextDays}
-          disabled={!canGoNext}
-          aria-label="Następne dni"
-        >
+        <Button variant="outline" size="sm" onClick={handleNextDays} disabled={!canGoNext} aria-label="Następne dni">
           Następne
           <ChevronRight className="h-4 w-4 ml-1" />
         </Button>

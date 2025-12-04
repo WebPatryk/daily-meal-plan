@@ -29,11 +29,13 @@ Udana refaktoryzacja komponentów LoginForm i RegisterForm z wykorzystaniem Reac
 ### 2. Zrefaktoryzowane komponenty
 
 #### LoginForm.tsx
+
 **Przed:** 163 linie kodu
 **Po:** 114 linii kodu
 **Redukcja:** -49 linii (-30%)
 
 **Kluczowe zmiany:**
+
 - Zastąpiono `useState` przez `useForm` z React Hook Form
 - Usunięto ręczną walidację Zod - teraz przez `zodResolver`
 - Usunięto ręczne handlery `onChange`
@@ -42,11 +44,13 @@ Udana refaktoryzacja komponentów LoginForm i RegisterForm z wykorzystaniem Reac
 - Wykorzystano `formState.isSubmitting` zamiast własnego `isLoading`
 
 #### RegisterForm.tsx
+
 **Przed:** 184 linie kodu
 **Po:** 137 linii kodu
 **Redukcja:** -47 linii (-25.5%)
 
 **Kluczowe zmiany:**
+
 - Identyczne uproszczenia jak w LoginForm
 - Obsługa potwierdzenia hasła nadal przez Zod schema
 - Wydzielono logikę API do `useRegister` hook
@@ -54,17 +58,20 @@ Udana refaktoryzacja komponentów LoginForm i RegisterForm z wykorzystaniem Reac
 ### 3. Korzyści z refaktoryzacji
 
 #### Redukcja złożoności
+
 - ✅ Eliminacja 4 hooks `useState` w każdym komponencie
 - ✅ Usunięcie ~40 linii logiki walidacji w każdym komponencie
 - ✅ Brak konieczności ręcznego mapowania błędów Zod
 - ✅ Automatyczne czyszczenie błędów przy wpisywaniu
 
 #### Separation of Concerns
+
 - ✅ Logika API oddzielona od komponentów UI
 - ✅ Hooki mogą być testowane niezależnie
 - ✅ Komponenty skupiają się tylko na renderowaniu
 
 #### Lepsze zarządzanie stanem
+
 - ✅ React Hook Form automatycznie zarządza:
   - Wartościami pól
   - Błędami walidacji
@@ -72,6 +79,7 @@ Udana refaktoryzacja komponentów LoginForm i RegisterForm z wykorzystaniem Reac
   - Dirty/touched state
 
 #### DX (Developer Experience)
+
 - ✅ Mniej boilerplate kodu
 - ✅ Lepsze TypeScript type inference
 - ✅ Łatwiejsze dodawanie nowych pól
@@ -80,11 +88,13 @@ Udana refaktoryzacja komponentów LoginForm i RegisterForm z wykorzystaniem Reac
 ### 4. Testy
 
 #### Kompatybilność wsteczna
+
 - ✅ Wszystkie istniejące testy E2E (Playwright) działają bez zmian
 - ✅ Page Object Model (LoginPage) nie wymaga modyfikacji
 - ✅ Selektory (`input[name="email"]`) pozostają takie same
 
 #### Brak błędów lintera
+
 - ✅ 0 błędów w `src/components/auth/`
 - ✅ 0 błędów w `src/lib/hooks/`
 - ✅ Wszystkie istniejące błędy lintera nie są związane z refaktoryzacją
@@ -108,35 +118,39 @@ interface RegisterFormProps {
 
 ### 6. Metryki
 
-| Metryka | Przed | Po | Zmiana |
-|---------|-------|----|---------| 
-| Linie kodu (LoginForm) | 163 | 114 | -30% |
-| Linie kodu (RegisterForm) | 184 | 137 | -25.5% |
-| useState hooks na komponent | 4 | 0 | -100% |
-| Ręczna walidacja | Tak | Nie | ✅ |
-| Błędy lintera | 0 | 0 | ✅ |
-| Testy E2E przechodzą | ✅ | ✅ | ✅ |
+| Metryka                     | Przed | Po  | Zmiana |
+| --------------------------- | ----- | --- | ------ |
+| Linie kodu (LoginForm)      | 163   | 114 | -30%   |
+| Linie kodu (RegisterForm)   | 184   | 137 | -25.5% |
+| useState hooks na komponent | 4     | 0   | -100%  |
+| Ręczna walidacja            | Tak   | Nie | ✅     |
+| Błędy lintera               | 0     | 0   | ✅     |
+| Testy E2E przechodzą        | ✅    | ✅  | ✅     |
 
 ### 7. Dalsze możliwości optymalizacji
 
 #### Testowanie
+
 - [ ] Dodać unit testy dla `useLogin` hook
 - [ ] Dodać unit testy dla `useRegister` hook
 - [ ] Dodać testy integracyjne dla komponentów z React Testing Library
 
 #### Funkcjonalność
+
 - [ ] Dodać support dla "Remember me"
 - [ ] Dodać "Forgot password" flow
 - [ ] Dodać rate limiting dla prób logowania
 - [ ] Rozważyć React Query dla server state management
 
 #### Performance
+
 - [ ] Dodać debouncing dla walidacji
 - [ ] Rozważyć lazy validation (blur zamiast onChange)
 
 ## Wnioski
 
 Refaktoryzacja zakończona sukcesem! Kod jest teraz:
+
 - 📉 25-30% krótszy
 - 🧹 Czystszy i łatwiejszy w utrzymaniu
 - 🔧 Łatwiejszy do testowania
@@ -144,4 +158,3 @@ Refaktoryzacja zakończona sukcesem! Kod jest teraz:
 - ✅ W pełni kompatybilny wstecznie
 
 React Hook Form + Zod + Custom Hooks = idealne połączenie dla zarządzania formularzami w React! 🎉
-
