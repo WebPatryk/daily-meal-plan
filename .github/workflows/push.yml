@@ -1,5 +1,5 @@
 # Name: Pull Request Workflow
-name: pull-request
+name: push
 
 on:
   pull_request:
