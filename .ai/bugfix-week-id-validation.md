@@ -193,3 +193,4 @@ Testuj walidację z różnymi typami:
 **Impact:** Wszystkie próby generowania AI kończyły się błędem  
 **Resolution:** Zmiana walidacji z `z.string().uuid()` na `z.number().int().positive()`
 
+

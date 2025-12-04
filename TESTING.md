@@ -144,12 +144,67 @@ Konfiguracja Playwright znajduje się w pliku `playwright.config.ts`. Zgodnie z 
 
 ```
 e2e/
-  fixtures/          # Setup fixtures (np. autentykacja)
+  fixtures/          # Setup i teardown fixtures
+    auth.setup.ts    # Setup dla autentykacji
+    db.teardown.ts   # Czyszczenie bazy danych po testach
+  helpers/          # Funkcje pomocnicze dla testów
+    supabase.ts     # Helper do interakcji z Supabase
   pages/            # Page Object Models
     BasePage.ts     # Klasa bazowa dla wszystkich stron
     LoginPage.ts    # POM dla strony logowania
   auth.spec.ts      # Testy autentykacji
 ```
+
+### Database Teardown
+
+Projekt wykorzystuje automatyczne czyszczenie bazy danych po zakończeniu wszystkich testów E2E.
+
+#### Jak to działa?
+
+Playwright używa **globalTeardown** - funkcji, która automatycznie uruchamia się po zakończeniu wszystkich testów. Teardown:
+
+1. Loguje się jako użytkownik testowy
+2. Pobiera jego ID z bazy danych
+3. Usuwa wszystkie dane testowe:
+   - Posiłki (meals)
+   - Tygodnie (weeks)
+   - Cele użytkownika (user_goals)
+4. Zachowuje konto użytkownika do ponownego użycia
+
+#### Konfiguracja zmiennych środowiskowych
+
+Aby teardown działał poprawnie, utwórz plik `.env` w katalogu głównym projektu:
+
+```env
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_KEY=your-anon-key
+TEST_EMAIL=lekki@gmail.com
+TEST_PASSWORD=Lekki123
+```
+
+**Ważne:** Teardown automatycznie ładuje zmienne z pliku `.env` używając pakietu `dotenv`.
+
+#### Ręczne uruchomienie teardown
+
+```bash
+# Uruchom tylko proces czyszczenia bazy danych (ręcznie)
+npx tsx e2e/fixtures/db.teardown.ts
+```
+
+#### Debugowanie teardown
+
+Teardown wyświetla szczegółowe logi w konsoli:
+
+```
+🧹 Starting database cleanup...
+🔍 Found test user: lekki@gmail.com (ID: uuid)
+✅ Deleted 5 meals
+✅ Deleted 1 weeks
+✅ Deleted 0 user goals
+✨ Database cleanup completed successfully!
+```
+
+Więcej informacji znajdziesz w `e2e/fixtures/README.md`.
 
 ### Page Object Model
 
@@ -243,7 +298,12 @@ daily-meal-plan/
 │       └── utils.test.ts         # Test jednostkowy
 ├── e2e/
 │   ├── fixtures/
-│   │   └── auth.setup.ts         # Setup dla autentykacji
+│   │   ├── auth.setup.ts         # Setup dla autentykacji
+│   │   ├── db.teardown.ts        # Teardown - czyszczenie bazy
+│   │   └── README.md             # Dokumentacja fixtures
+│   ├── helpers/
+│   │   ├── supabase.ts           # Helper dla Supabase
+│   │   └── README.md             # Dokumentacja helpers
 │   ├── pages/
 │   │   ├── BasePage.ts           # Klasa bazowa POM
 │   │   └── LoginPage.ts          # POM dla strony logowania

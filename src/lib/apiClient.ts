@@ -62,6 +62,39 @@ export async function getCurrentWeek(): Promise<WeekDto> {
 }
 
 /**
+ * Gets a specific week by start date, creating it if it doesn't exist.
+ *
+ * @param startDate - ISO date string (YYYY-MM-DD) for Monday of the week
+ * @returns The week for the specified start date
+ */
+export async function getWeekByDate(startDate: string): Promise<WeekDto> {
+  const response = await fetchApi<PaginatedResponse<WeekDto>>(
+    `${API_BASE}/weeks?start_date=${startDate}&limit=1`
+  );
+
+  // If week exists, return it
+  if (response.items.length > 0) {
+    return response.items[0];
+  }
+
+  // Week doesn't exist, create it
+  return createWeek({ start_date: startDate });
+}
+
+/**
+ * Creates a new week.
+ *
+ * @param week - Week creation data
+ * @returns The created week
+ */
+export async function createWeek(week: { start_date: string }): Promise<WeekDto> {
+  return fetchApi<WeekDto>(`${API_BASE}/weeks`, {
+    method: "POST",
+    body: JSON.stringify(week),
+  });
+}
+
+/**
  * Fetches all meals for a specific week.
  *
  * @param weekId - The week's UUID

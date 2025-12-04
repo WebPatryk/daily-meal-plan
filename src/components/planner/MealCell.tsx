@@ -69,6 +69,7 @@ export function MealCell({ cell, onSelect, isFocused = false, isOverCalories = f
         className="w-full h-full flex flex-col items-center justify-center gap-2 border-dashed hover:border-solid hover:bg-accent/50"
         onClick={handleClick}
         aria-label={`Dodaj posiłek: ${cell.mealType} w ${cell.day}`}
+        data-test-id={`add-meal-btn-${cell.day}-${cell.mealType}`}
       >
         <svg
           className="w-8 h-8 text-muted-foreground"

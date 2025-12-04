@@ -5,6 +5,9 @@ import { defineConfig, devices } from "@playwright/test";
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
+  // Global teardown - czyszczenie bazy danych po wszystkich testach
+  globalTeardown: "./e2e/fixtures/db.teardown.ts",
+
   // Katalog z testami E2E
   testDir: "./e2e",
 

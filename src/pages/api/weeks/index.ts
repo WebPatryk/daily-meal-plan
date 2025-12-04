@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { ZodError } from "zod";
-import { WeeksQuerySchema } from "@/lib/schemas/weeks";
+import { WeeksQuerySchema, CreateWeekSchema } from "@/lib/schemas/weeks";
 import { createWeeksService } from "@/lib/weeksService";
 import { logError } from "@/lib/utils";
 
@@ -74,6 +74,101 @@ export const GET: APIRoute = async ({ locals, url }) => {
   } catch (error) {
     // Step 5: Handle unexpected errors
     logError(error, "GET /api/weeks");
+
+    return new Response(JSON.stringify({ error: "internal_server_error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+};
+
+/**
+ * POST /api/weeks - Create a new week
+ *
+ * Body:
+ * - start_date: string (YYYY-MM-DD, Monday of the week)
+ *
+ * Returns:
+ * - 201: WeekDto - The created week
+ * - 400: { error: string } - Invalid request body
+ * - 401: { error: string } - Unauthorized
+ * - 500: { error: string } - Internal server error
+ */
+export const POST: APIRoute = async ({ locals, request }) => {
+  try {
+    // Step 1: Authenticate the user
+    const {
+      data: { user },
+      error: authError,
+    } = await locals.supabase.auth.getUser();
+
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: "unauthorized" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // Step 2: Parse and validate request body
+    const body = await request.json();
+    
+    let validatedData;
+    try {
+      validatedData = CreateWeekSchema.parse(body);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const firstError = error.errors[0];
+        const errorMessage = firstError.message;
+
+        return new Response(JSON.stringify({ error: errorMessage }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      throw error;
+    }
+
+    // Step 3: Check if week already exists
+    const { data: existingWeeks } = await locals.supabase
+      .from("weeks")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("start_date", validatedData.start_date)
+      .limit(1);
+
+    if (existingWeeks && existingWeeks.length > 0) {
+      // Week already exists, return it
+      return new Response(JSON.stringify(existingWeeks[0]), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+
+    // Step 4: Create the week
+    const { data: newWeek, error: createError } = await locals.supabase
+      .from("weeks")
+      .insert({
+        user_id: user.id,
+        start_date: validatedData.start_date,
+      })
+      .select()
+      .single();
+
+    if (createError || !newWeek) {
+      throw new Error(`Failed to create week: ${createError?.message}`);
+    }
+
+    // Step 5: Return the created week
+    return new Response(JSON.stringify(newWeek), {
+      status: 201,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    logError(error, "POST /api/weeks");
 
     return new Response(JSON.stringify({ error: "internal_server_error" }), {
       status: 500,

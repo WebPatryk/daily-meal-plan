@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { toast } from "sonner";
 import type { PlannerContextValue, ActiveWeekState, CreateMealCommand, UpdateMealCommand } from "../../types";
-import { getCurrentWeek, getWeekMeals, createMeal, updateMeal, deleteMeal } from "../../lib/apiClient";
+import { getCurrentWeek, getWeekByDate, getWeekMeals, createMeal, updateMeal, deleteMeal } from "../../lib/apiClient";
 
 const PlannerContext = createContext<PlannerContextValue | undefined>(undefined);
 
@@ -41,6 +41,30 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
 
       // getCurrentWeek() now always returns a week (creates if doesn't exist)
       const week = await getCurrentWeek();
+      const meals = await getWeekMeals(week.week_id);
+      const totals = calculateTotals(meals);
+
+      setState({
+        week,
+        meals,
+        totals,
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Nieznany błąd"));
+    } finally {
+      setIsLoading(false);
+    }
+  }, [calculateTotals]);
+
+  /**
+   * Loads a specific week by start date and its meals.
+   */
+  const loadWeekByDate = useCallback(async (startDate: string) => {
+    try {
+      setIsLoading(true);
+      setError(undefined);
+
+      const week = await getWeekByDate(startDate);
       const meals = await getWeekMeals(week.week_id);
       const totals = calculateTotals(meals);
 
@@ -163,16 +187,33 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
 
   /**
    * Changes the active week (prev/next).
-   * Currently just reloads - navigation logic can be enhanced later.
+   * Calculates the new Monday and loads that week's data.
    */
   const changeWeek = useCallback(
     async (direction: "prev" | "next") => {
-      // For now, we'll just reload the current week
-      // In a full implementation, this would fetch the previous/next week
-      console.log(`Changing week: ${direction}`);
-      await loadWeekData();
+      if (!state) return;
+
+      try {
+        // Calculate the new Monday based on direction
+        const currentStartDate = new Date(state.week.start_date);
+        const daysToAdd = direction === "next" ? 7 : -7;
+        const newStartDate = new Date(currentStartDate);
+        newStartDate.setDate(currentStartDate.getDate() + daysToAdd);
+        
+        // Format as YYYY-MM-DD
+        const newStartDateStr = newStartDate.toISOString().split("T")[0];
+        
+        // Load the new week
+        await loadWeekByDate(newStartDateStr);
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error("Nie udało się zmienić tygodnia");
+        toast.error("Błąd", {
+          description: error.message,
+        });
+        setError(error);
+      }
     },
-    [loadWeekData]
+    [state, loadWeekByDate]
   );
 
   const contextValue: PlannerContextValue = {

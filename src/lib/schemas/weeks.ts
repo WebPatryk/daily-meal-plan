@@ -50,3 +50,35 @@ export const WeeksQuerySchema = z.object({
  * Use this type when working with validated query parameters.
  */
 export type WeeksQuerySchemaType = z.infer<typeof WeeksQuerySchema>;
+
+/**
+ * Zod schema for validating POST /api/weeks request body.
+ *
+ * Validates:
+ * - start_date: ISO date string in YYYY-MM-DD format (required)
+ */
+export const CreateWeekSchema = z.object({
+  start_date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "start_date must be in YYYY-MM-DD format")
+    .refine(
+      (date) => {
+        const parsed = new Date(date);
+        return !isNaN(parsed.getTime());
+      },
+      { message: "start_date must be a valid date" }
+    )
+    .refine(
+      (date) => {
+        const parsed = new Date(date);
+        const dayOfWeek = parsed.getDay();
+        return dayOfWeek === 1; // Monday
+      },
+      { message: "start_date must be a Monday" }
+    ),
+});
+
+/**
+ * Inferred TypeScript type from the CreateWeekSchema.
+ */
+export type CreateWeekSchemaType = z.infer<typeof CreateWeekSchema>;

@@ -133,7 +133,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" data-test-id="meal-dialog">
         <DialogHeader>
           <DialogTitle>{mode === "add" ? "Dodaj nowy posiłek" : "Edytuj posiłek"}</DialogTitle>
           <DialogDescription>
@@ -155,6 +155,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
               placeholder="np. Owsianka z owocami"
               aria-invalid={!!errors.name}
               aria-describedby={errors.name ? "name-error" : undefined}
+              data-test-id="meal-name-input"
             />
             {errors.name && (
               <p id="name-error" className="text-sm text-destructive" role="alert">
@@ -178,6 +179,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
                 max="3000"
                 aria-invalid={!!errors.kcal}
                 aria-describedby={errors.kcal ? "kcal-error" : undefined}
+                data-test-id="meal-kcal-input"
               />
               {errors.kcal && (
                 <p id="kcal-error" className="text-sm text-destructive" role="alert">
@@ -199,6 +201,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
                 max="300"
                 aria-invalid={!!errors.protein}
                 aria-describedby={errors.protein ? "protein-error" : undefined}
+                data-test-id="meal-protein-input"
               />
               {errors.protein && (
                 <p id="protein-error" className="text-sm text-destructive" role="alert">
@@ -247,6 +250,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
               placeholder="Każdy składnik w nowej linii&#10;np.&#10;100g płatków owsianych&#10;200ml mleka&#10;1 banan"
               rows={4}
               className="font-mono text-sm"
+              data-test-id="meal-ingredients-input"
             />
             <p className="text-xs text-muted-foreground">Wpisz każdy składnik w osobnej linii</p>
           </div>
@@ -260,6 +264,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
               placeholder="Każdy krok w nowej linii&#10;np.&#10;1. Zagotuj mleko&#10;2. Dodaj płatki&#10;3. Gotuj 3 minuty"
               rows={5}
               className="font-mono text-sm"
+              data-test-id="meal-steps-input"
             />
             <p className="text-xs text-muted-foreground">Wpisz każdy krok w osobnej linii</p>
           </div>
@@ -281,7 +286,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
               <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting || isDeleting}>
                 Anuluj
               </Button>
-              <Button type="submit" disabled={isSubmitting || isDeleting}>
+              <Button type="submit" disabled={isSubmitting || isDeleting} data-test-id="meal-submit-btn">
                 {isSubmitting ? "Zapisywanie..." : mode === "add" ? "Dodaj posiłek" : "Zapisz zmiany"}
               </Button>
             </div>
