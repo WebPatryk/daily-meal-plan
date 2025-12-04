@@ -214,11 +214,13 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
           {/* Image Upload */}
           <div className="space-y-2">
             <Label htmlFor="image">Zdjęcie posiłku (opcjonalne, max 1MB)</Label>
-            
+
             {/* Show current icon if meal has one */}
             {meal?.image_path && isIconPath(meal.image_path) && (
               <div className="mb-2 p-4 bg-primary/5 rounded-md border border-primary/20">
-                <p className="text-xs text-muted-foreground mb-2">Aktualnie wyświetlana ikona (wygenerowana przez AI):</p>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Aktualnie wyświetlana ikona (wygenerowana przez AI):
+                </p>
                 <div className="flex items-center justify-center">
                   {getMealIcon(extractIconName(meal.image_path)!, "w-12 h-12 text-primary")}
                 </div>
@@ -227,7 +229,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
                 </p>
               </div>
             )}
-            
+
             <Input id="image" type="file" accept="image/*" {...register("image")} aria-describedby="image-hint" />
             <p id="image-hint" className="text-xs text-muted-foreground">
               Akceptowane formaty: JPG, PNG, GIF, WebP. Maksymalny rozmiar: 1MB

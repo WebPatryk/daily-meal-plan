@@ -59,5 +59,3 @@ export function mapAuthError(code?: string): string {
 
   return errorMap[code || ""] || "Wystąpił nieoczekiwany błąd. Spróbuj ponownie";
 }
-
-

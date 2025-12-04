@@ -57,7 +57,7 @@ test.describe("Dodawanie posiłku do planu tygodniowego", () => {
     // Po zamknięciu dialogu, komórka powinna zawierać kartę posiłku zamiast przycisku "Dodaj"
     const addButton = page.locator('[data-test-id="add-meal-btn-monday-breakfast"]');
     const isAddButtonVisible = await addButton.isVisible().catch(() => false);
-    
+
     // Przycisk "Dodaj" nie powinien być już widoczny, ponieważ komórka zawiera teraz kartę posiłku
     expect(isAddButtonVisible).toBe(false);
 
@@ -67,4 +67,3 @@ test.describe("Dodawanie posiłku do planu tygodniowego", () => {
     expect(cellText).toContain(mealData.name);
   });
 });
-

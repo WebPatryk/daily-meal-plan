@@ -1,6 +1,7 @@
 # Przewodnik Testowania - Generowanie Posiłków AI
 
 ## 🎯 Cel
+
 Przetestowanie pełnego flow generowania posiłków przy użyciu AI (GPT-4o-mini przez OpenRouter).
 
 ## ⚙️ Przygotowanie
@@ -19,6 +20,7 @@ SUPABASE_KEY=eyJxxx...
 ```
 
 **Gdzie znaleźć klucz OpenRouter:**
+
 1. Przejdź do https://openrouter.ai/
 2. Zaloguj się lub załóż konto
 3. Idź do "Settings" → "API Keys"
@@ -58,6 +60,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 5. ⏳ Poczekaj 5-10 sekund (AI generuje odpowiedź)
 
 **Oczekiwany rezultat:**
+
 - ✅ Pojawia się podgląd wygenerowanego posiłku
 - ✅ Nazwa posiłku po polsku (np. "Owsianka z bananami i orzechami")
 - ✅ Kalorie w zakresie 300-500 kcal
@@ -68,6 +71,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 6. Kliknij **"Zapisz"**
 
 **Oczekiwany rezultat:**
+
 - ✅ Modal się zamyka
 - ✅ Nowy posiłek pojawia się w kafelku "Poniedziałek - Śniadanie"
 - ✅ Wyświetla się toast "Posiłek został dodany"
@@ -89,6 +93,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 3. Kliknij **"Generuj"**
 
 **Oczekiwany rezultat:**
+
 - ✅ AI generuje posiłek z dużą ilością białka
 - ✅ Składniki zawierają kurczaka lub inne źródło białka
 - ✅ Wartości odżywcze mieszczą się w zakresie
@@ -100,6 +105,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 ### ✅ Test 3: Kolacja wegańska
 
 **Parametry:**
+
 - Kalorie: 400-600
 - Białko: 15-25
 - Opis: `Wegańska kolacja bez produktów odzwierzęcych`
@@ -107,6 +113,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 - Typ: Kolacja
 
 **Oczekiwany rezultat:**
+
 - ✅ AI generuje posiłek wegański
 - ✅ Brak mięsa, nabiału, jajek w składnikach
 - ✅ Może zawierać tofu, tempeh, rośliny strączkowe
@@ -116,6 +123,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 ### ✅ Test 4: Drugie śniadanie niskokaloryczne
 
 **Parametry:**
+
 - Kalorie: 150-250
 - Białko: 10-15
 - Opis: `Lekkie drugie śniadanie dla osób na diecie`
@@ -123,6 +131,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 - Typ: Drugie śniadanie
 
 **Oczekiwany rezultat:**
+
 - ✅ Mała porcja, niskokaloryczna
 - ✅ Odpowiednia dla przekąski między posiłkami
 
@@ -131,6 +140,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 ### ✅ Test 5: Podwieczorek dla dziecka
 
 **Parametry:**
+
 - Kalorie: 200-300
 - Białko: 8-15
 - Opis: `Smaczny i zdrowy podwieczorek dla dziecka w wieku szkolnym`
@@ -138,6 +148,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 - Typ: Podwieczorek
 
 **Oczekiwany rezultat:**
+
 - ✅ AI dostosowuje przepis do dziecka
 - ✅ Proste składniki i przygotowanie
 - ✅ Atrakcyjna prezentacja
@@ -154,6 +165,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 2. Kliknij "Generuj"
 
 **Oczekiwany rezultat:**
+
 - ✅ Formularz wyświetla błąd walidacji
 - ✅ Przycisk "Generuj" jest zablokowany lub pokazuje błąd
 
@@ -163,6 +175,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 2. Kliknij "Generuj"
 
 **Oczekiwany rezultat:**
+
 - ✅ Błąd: "Opis jest wymagany"
 
 ### Test 8: Brak połączenia z API
@@ -171,6 +184,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 2. Spróbuj wygenerować posiłek
 
 **Oczekiwany rezultat:**
+
 - ✅ Wyświetla się komunikat błędu
 - ✅ Nie zawiesza się aplikacja
 - ✅ Możliwość ponowienia próby
@@ -217,6 +231,7 @@ Musisz być zalogowany, żeby testować funkcjonalność AI.
 ### Różne kombinacje
 
 Przetestuj co najmniej:
+
 - ✅ Wszystkie 5 typów posiłków (śniadanie, 2. śniadanie, obiad, podwieczorek, kolacja)
 - ✅ Wszystkie 7 dni tygodnia
 - ✅ Różne zakresy kaloryczne (małe: 150-300, średnie: 400-700, duże: 800-1200)
@@ -300,6 +315,7 @@ Network: 200 OK
 Jeśli wszystkie testy przeszły pomyślnie, funkcjonalność generowania AI jest gotowa do użycia! 🎉
 
 **Następne kroki:**
+
 1. Deploy na środowisko testowe
 2. User acceptance testing (UAT)
 3. Performance monitoring
@@ -308,8 +324,7 @@ Jeśli wszystkie testy przeszły pomyślnie, funkcjonalność generowania AI jes
 
 **Kontakt:**
 W razie pytań lub problemów, sprawdź:
+
 - `.ai/generation-service-summary.md` - szczegóły implementacji
 - `src/lib/generation.service.ts` - kod źródłowy
 - OpenRouter docs: https://openrouter.ai/docs
-
-

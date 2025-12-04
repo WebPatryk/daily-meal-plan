@@ -14,15 +14,15 @@ interface PlannerToolbarProps {
  */
 export function PlannerToolbar({ week, onPrev, onNext, onGenerateAI }: PlannerToolbarProps) {
   return (
-    <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b">
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b">
       {/* Week Navigation */}
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <WeekNavigation week={week} onPrev={onPrev} onNext={onNext} />
       </div>
 
       {/* AI Generate Button */}
-      <Button onClick={onGenerateAI} className="gap-2" size="lg">
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+      <Button onClick={onGenerateAI} className="gap-2 shrink-0" size="default">
+        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M13 7H7v6h6V7z" />
           <path
             fillRule="evenodd"
@@ -30,7 +30,7 @@ export function PlannerToolbar({ week, onPrev, onNext, onGenerateAI }: PlannerTo
             clipRule="evenodd"
           />
         </svg>
-        Generuj AI
+        <span className="text-sm sm:text-base">Generuj AI</span>
       </Button>
     </div>
   );

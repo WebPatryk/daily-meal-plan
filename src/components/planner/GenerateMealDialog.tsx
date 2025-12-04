@@ -1,25 +1,13 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AiGenerateMealSchema, type AiGenerateMealFormValues } from "../../lib/schemas/meals";
 import { generateMealWithAI } from "../../lib/apiClient";
 import type { MealDto, DayOfWeek, MealType } from "../../types";
@@ -110,7 +98,7 @@ export function GenerateMealDialog({
 
       // Call onSave to refresh the planner grid
       await onSave();
-      
+
       // Close modal after successful save
       handleClose();
     } catch (err) {
@@ -132,8 +120,8 @@ export function GenerateMealDialog({
         <DialogHeader>
           <DialogTitle>Generuj posiłek z AI</DialogTitle>
           <DialogDescription>
-            Podaj zakres kalorii, białka i opis posiłku. AI wygeneruje i automatycznie doda posiłek do wybranego dnia
-            i pory.
+            Podaj zakres kalorii, białka i opis posiłku. AI wygeneruje i automatycznie doda posiłek do wybranego dnia i
+            pory.
           </DialogDescription>
         </DialogHeader>
 
@@ -342,7 +330,6 @@ export function GenerateMealDialog({
             )}
           </Button>
         </form>
-
       </DialogContent>
     </Dialog>
   );

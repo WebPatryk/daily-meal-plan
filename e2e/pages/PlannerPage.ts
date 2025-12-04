@@ -44,13 +44,7 @@ export class PlannerPage extends BasePage {
   /**
    * Wypełnij formularz dodawania posiłku
    */
-  async fillMealForm(data: {
-    name: string;
-    kcal: number;
-    protein: number;
-    ingredients?: string;
-    steps?: string;
-  }) {
+  async fillMealForm(data: { name: string; kcal: number; protein: number; ingredients?: string; steps?: string }) {
     await this.fill('[data-test-id="meal-name-input"]', data.name);
     await this.fill('[data-test-id="meal-kcal-input"]', data.kcal.toString());
     await this.fill('[data-test-id="meal-protein-input"]', data.protein.toString());
@@ -83,14 +77,13 @@ export class PlannerPage extends BasePage {
    */
   async isSuccessToastVisible() {
     // Toast notification z biblioteki Sonner
-    return await this.page.locator('[data-sonner-toast]').first().isVisible();
+    return await this.page.locator("[data-sonner-toast]").first().isVisible();
   }
 
   /**
    * Pobierz treść toast notification
    */
   async getToastMessage() {
-    return await this.page.locator('[data-sonner-toast]').first().textContent();
+    return await this.page.locator("[data-sonner-toast]").first().textContent();
   }
 }
-

@@ -13,21 +13,19 @@ Plik zawiera funkcje pomocnicze do interakcji z bazą danych Supabase podczas te
 Tworzy klienta Supabase do użycia w testach E2E.
 
 **Zmienne środowiskowe:**
+
 - `SUPABASE_URL` - URL projektu Supabase
 - `SUPABASE_KEY` - Klucz anon Supabase
 
 **Przykład użycia:**
 
 ```typescript
-import { createTestSupabaseClient } from './helpers/supabase';
+import { createTestSupabaseClient } from "./helpers/supabase";
 
 const supabase = createTestSupabaseClient();
 
 // Wykonaj operacje na bazie danych
-const { data, error } = await supabase
-  .from('meals')
-  .select('*')
-  .eq('user_id', userId);
+const { data, error } = await supabase.from("meals").select("*").eq("user_id", userId);
 ```
 
 #### `getTestUserId(email: string): Promise<string | null>`
@@ -35,21 +33,24 @@ const { data, error } = await supabase
 Pobiera ID użytkownika testowego na podstawie jego adresu email.
 
 **Parametry:**
+
 - `email` - adres email użytkownika testowego
 
 **Zwraca:**
+
 - `string` - ID użytkownika (UUID)
 - `null` - jeśli nie udało się pobrać ID
 
 **Zmienne środowiskowe:**
+
 - `TEST_PASSWORD` - hasło użytkownika testowego
 
 **Przykład użycia:**
 
 ```typescript
-import { getTestUserId } from './helpers/supabase';
+import { getTestUserId } from "./helpers/supabase";
 
-const testEmail = 'lekki@gmail.com';
+const testEmail = "lekki@gmail.com";
 const userId = await getTestUserId(testEmail);
 
 if (userId) {
@@ -92,7 +93,6 @@ export async function seedTestData(userId: string) {
 // Funkcja do czyszczenia konkretnej tabeli
 export async function cleanTable(tableName: string, userId: string) {
   const supabase = createTestSupabaseClient();
-  await supabase.from(tableName).delete().eq('user_id', userId);
+  await supabase.from(tableName).delete().eq("user_id", userId);
 }
 ```
-

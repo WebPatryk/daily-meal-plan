@@ -85,6 +85,3 @@ export const GET: APIRoute = async ({ locals }) => {
     });
   }
 };
-
-
-

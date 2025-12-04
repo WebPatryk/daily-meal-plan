@@ -57,7 +57,7 @@ export function MealCell({ cell, onSelect, isFocused = false, isOverCalories = f
   return (
     <div
       className={`
-        h-full min-h-[200px]
+        h-full min-h-[140px] sm:min-h-[180px] lg:min-h-[200px]
         ${isFocused ? "ring-2 ring-primary ring-offset-2" : ""}
         ${isOverCalories ? "bg-red-50 dark:bg-red-950/20" : ""}
       `}
@@ -66,13 +66,13 @@ export function MealCell({ cell, onSelect, isFocused = false, isOverCalories = f
     >
       <Button
         variant="outline"
-        className="w-full h-full flex flex-col items-center justify-center gap-2 border-dashed hover:border-solid hover:bg-accent/50"
+        className="w-full h-full flex flex-col items-center justify-center gap-1 sm:gap-2 border-dashed hover:border-solid hover:bg-accent/50"
         onClick={handleClick}
         aria-label={`Dodaj posiłek: ${cell.mealType} w ${cell.day}`}
         data-test-id={`add-meal-btn-${cell.day}-${cell.mealType}`}
       >
         <svg
-          className="w-8 h-8 text-muted-foreground"
+          className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -80,7 +80,7 @@ export function MealCell({ cell, onSelect, isFocused = false, isOverCalories = f
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
         </svg>
-        <span className="text-xs text-muted-foreground">Dodaj posiłek</span>
+        <span className="text-[10px] sm:text-xs text-muted-foreground">Dodaj posiłek</span>
       </Button>
     </div>
   );

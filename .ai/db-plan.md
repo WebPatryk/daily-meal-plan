@@ -1,11 +1,13 @@
 ### 1. Tabele
 
-#### 1.1 users *(zarządzana przez Supabase Auth)*
+#### 1.1 users _(zarządzana przez Supabase Auth)_
+
 - **id**: uuid, primary key, generowany przez Supabase Auth
 - **email**: text, unique, not null
 - **created_at**: timestamptz, default now()
 
 #### 1.2 weeks
+
 - **week_id**: bigint, primary key, generated always as identity
 - **user_id**: uuid, not null, references users(id) on delete cascade
 - **start_date**: date, not null (poniedziałek tygodnia ISO)
@@ -13,6 +15,7 @@
 - Dodatkowe ograniczenia: unique (user_id, start_date) – jeden tydzień na użytkownika
 
 #### 1.3 meals
+
 - **meal_id**: bigint, primary key, generated always as identity
 - **user_id**: uuid, not null, references users(id) on delete cascade
 - **week_id**: bigint, not null, references weeks(week_id) on delete cascade
@@ -28,6 +31,7 @@
 - Dodatkowe ograniczenia: UNIQUE (user_id, week_id, day_of_week, meal_type) – brak duplikatów slotów
 
 #### 1.4 user_goals
+
 - **goal_id**: bigint, primary key, generated always as identity
 - **user_id**: uuid, not null, references users(id) on delete cascade
 - **kcal_target**: smallint, not null, CHECK (kcal_target between 1 and 3000)
@@ -40,6 +44,7 @@
 ---
 
 ### 2. Enumeracje (SQL)
+
 ```sql
 do $$
 begin
@@ -50,12 +55,14 @@ end$$;
 ```
 
 ### 3. Relacje (kardynalność)
+
 - **users 1 → N weeks** – jeden użytkownik posiada wiele tygodni
 - **users 1 → N meals** – bezpośrednie odniesienie dla RLS (nadmiarowe względem weeks)
 - **weeks 1 → N meals** – tydzień zawiera wiele posiłków
 - **users 1 → N user_goals** – użytkownik ma historię celów makro
 
 ### 4. Indeksy
+
 ```sql
 -- klucze główne indeksowane automatycznie
 create index if not exists idx_meals_user_week_day on meals(user_id, week_id, day_of_week);
@@ -66,6 +73,7 @@ create index if not exists idx_user_goals_current on user_goals(user_id, valid_f
 ```
 
 ### 5. Row-Level Security (RLS)
+
 ```sql
 alter table weeks enable row level security;
 create policy user_owns_week on weeks for all using (user_id = auth.uid());
@@ -78,6 +86,7 @@ create policy user_owns_goal on user_goals for all using (user_id = auth.uid());
 ```
 
 ### 6. Wyzwalacze i funkcje
+
 ```sql
 -- upewnij się, że tydzień istnieje przy wstawianiu posiłku
 create or replace function ensure_week() returns trigger language plpgsql as $$
@@ -97,6 +106,7 @@ $$;
 ```
 
 ### 7. Dodatkowe uwagi
+
 - MVP nie zawiera soft-delete ani partycjonowania; rozważyć w przyszłości.
 - Kolumna `ai_proposition` przechowuje pełną odpowiedź AI; w razie potrzeby ograniczać rozmiar po stronie aplikacji.
 - Możliwe przyszłe dodanie kolumny `meal_date` lub zdenormalizowanego widoku dla zapytań kalendarzowych.

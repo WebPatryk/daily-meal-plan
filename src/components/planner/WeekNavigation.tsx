@@ -33,8 +33,8 @@ export function WeekNavigation({ week, onPrev, onNext }: WeekNavigationProps) {
   const endDate = formatDate(getEndDate(week.start_date));
 
   return (
-    <div className="flex items-center justify-between gap-4">
-      <Button variant="outline" size="icon" onClick={onPrev} aria-label="Poprzedni tydzień">
+    <div className="flex items-center justify-between gap-2 sm:gap-4">
+      <Button variant="outline" size="icon" className="shrink-0" onClick={onPrev} aria-label="Poprzedni tydzień">
         <svg
           className="w-4 h-4"
           fill="none"
@@ -46,14 +46,14 @@ export function WeekNavigation({ week, onPrev, onNext }: WeekNavigationProps) {
         </svg>
       </Button>
 
-      <div className="flex-1 text-center">
-        <h2 className="text-xl font-semibold">
+      <div className="flex-1 text-center min-w-0">
+        <h2 className="text-sm sm:text-lg lg:text-xl font-semibold truncate">
           {startDate} - {endDate}
         </h2>
-        <p className="text-sm text-muted-foreground">Tydzień {new Date(week.start_date).getWeek()}</p>
+        <p className="text-xs sm:text-sm text-muted-foreground">Tydzień {new Date(week.start_date).getWeek()}</p>
       </div>
 
-      <Button variant="outline" size="icon" onClick={onNext} aria-label="Następny tydzień">
+      <Button variant="outline" size="icon" className="shrink-0" onClick={onNext} aria-label="Następny tydzień">
         <svg
           className="w-4 h-4"
           fill="none"

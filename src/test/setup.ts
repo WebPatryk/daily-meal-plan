@@ -19,4 +19,3 @@ vi.stubGlobal("import.meta", {
 globalThis.Astro = {
   locals: {},
 } as any;
-

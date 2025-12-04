@@ -59,26 +59,29 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
   /**
    * Loads a specific week by start date and its meals.
    */
-  const loadWeekByDate = useCallback(async (startDate: string) => {
-    try {
-      setIsLoading(true);
-      setError(undefined);
+  const loadWeekByDate = useCallback(
+    async (startDate: string) => {
+      try {
+        setIsLoading(true);
+        setError(undefined);
 
-      const week = await getWeekByDate(startDate);
-      const meals = await getWeekMeals(week.week_id);
-      const totals = calculateTotals(meals);
+        const week = await getWeekByDate(startDate);
+        const meals = await getWeekMeals(week.week_id);
+        const totals = calculateTotals(meals);
 
-      setState({
-        week,
-        meals,
-        totals,
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error("Nieznany błąd"));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [calculateTotals]);
+        setState({
+          week,
+          meals,
+          totals,
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error("Nieznany błąd"));
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [calculateTotals]
+  );
 
   /**
    * Initial load on mount.
@@ -199,10 +202,10 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
         const daysToAdd = direction === "next" ? 7 : -7;
         const newStartDate = new Date(currentStartDate);
         newStartDate.setDate(currentStartDate.getDate() + daysToAdd);
-        
+
         // Format as YYYY-MM-DD
         const newStartDateStr = newStartDate.toISOString().split("T")[0];
-        
+
         // Load the new week
         await loadWeekByDate(newStartDateStr);
       } catch (err) {

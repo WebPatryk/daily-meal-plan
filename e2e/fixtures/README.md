@@ -55,7 +55,8 @@ Jeśli teardown nie działa poprawnie, sprawdź logi w konsoli. Teardown wyświe
 - ✨ Database cleanup completed successfully!
 
 W przypadku błędów, zobaczysz:
-- ⚠️  Could not find test user. Skipping cleanup.
+
+- ⚠️ Could not find test user. Skipping cleanup.
 - ❌ Error deleting meals: [error message]
 
 ### Ręczne uruchomienie teardown
@@ -77,4 +78,3 @@ npx tsx e2e/fixtures/db.teardown.ts
 - Teardown używa tego samego użytkownika testowego co testy E2E (`TEST_EMAIL`)
 - Teardown loguje się tymczasowo jako użytkownik testowy, aby uzyskać jego ID, a następnie się wylogowuje
 - Dzięki RLS (Row Level Security) w Supabase, można bezpiecznie usuwać tylko dane konkretnego użytkownika
-

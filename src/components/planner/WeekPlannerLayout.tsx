@@ -57,13 +57,9 @@ export function WeekPlannerLayout() {
       const { day, mealType } = dialogState.cell;
 
       // Process ingredients and steps (convert from textarea string to array)
-      const ingredients = data.ingredients
-        ? data.ingredients.split("\n").filter((s) => s.trim())
-        : [];
+      const ingredients = data.ingredients ? data.ingredients.split("\n").filter((s) => s.trim()) : [];
 
-      const steps = data.steps
-        ? data.steps.split("\n").filter((s) => s.trim())
-        : [];
+      const steps = data.steps ? data.steps.split("\n").filter((s) => s.trim()) : [];
 
       if (dialogState.mode === "add") {
         // Add new meal
@@ -118,14 +114,11 @@ export function WeekPlannerLayout() {
   }, []);
 
   // Handle saving AI-generated meal (meal is already saved by backend, just refresh)
-  const handleSaveGeneratedMeal = useCallback(
-    async () => {
-      // Meal is already in database, just refresh to get latest data
-      await refreshData();
-      setDialogState({ mode: "closed" });
-    },
-    [refreshData]
-  );
+  const handleSaveGeneratedMeal = useCallback(async () => {
+    // Meal is already in database, just refresh to get latest data
+    await refreshData();
+    setDialogState({ mode: "closed" });
+  }, [refreshData]);
 
   // Close dialogs
   const handleCloseDialog = useCallback(() => {
@@ -198,16 +191,16 @@ export function WeekPlannerLayout() {
       />
 
       {/* Totals Summary */}
-      <div className="grid grid-cols-2 gap-4 p-4 bg-muted/50 rounded-lg">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 bg-muted/50 rounded-lg">
         <div>
-          <p className="text-sm text-muted-foreground">Suma kalorii</p>
-          <p className={`text-2xl font-bold ${caloriesOverLimit ? "text-destructive" : ""}`}>
+          <p className="text-xs sm:text-sm text-muted-foreground">Suma kalorii</p>
+          <p className={`text-xl sm:text-2xl font-bold ${caloriesOverLimit ? "text-destructive" : ""}`}>
             {state.totals.kcal} kcal
           </p>
         </div>
         <div>
-          <p className="text-sm text-muted-foreground">Suma białka</p>
-          <p className="text-2xl font-bold">{state.totals.protein}g</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">Suma białka</p>
+          <p className="text-xl sm:text-2xl font-bold">{state.totals.protein}g</p>
         </div>
       </div>
 

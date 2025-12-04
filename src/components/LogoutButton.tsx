@@ -24,7 +24,7 @@ export function LogoutButton() {
       }
 
       toast.success("Wylogowano pomyślnie");
-      
+
       // Redirect to login page
       window.location.href = "/auth/login";
     } catch (error) {
@@ -36,15 +36,8 @@ export function LogoutButton() {
   };
 
   return (
-    <Button
-      variant="outline"
-      onClick={handleLogout}
-      disabled={isLoading}
-    >
+    <Button variant="outline" onClick={handleLogout} disabled={isLoading}>
       {isLoading ? "Wylogowywanie..." : "Wyloguj się"}
     </Button>
   );
 }
-
-
-

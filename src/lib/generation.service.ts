@@ -30,17 +30,17 @@ export interface MealGenerationParams {
 /**
  * Available meal icon categories
  */
-export type MealIcon = 
-  | "breakfast"    // śniadanie - jajka, płatki, tosty
-  | "salad"        // sałatki, warzywa
-  | "meat"         // mięso, kurczak
-  | "fish"         // ryby, owoce morza
-  | "pasta"        // makarony, dania z makaronem
-  | "soup"         // zupy
-  | "dessert"      // desery, słodycze
-  | "fruit"        // owoce, smoothie
-  | "vegetarian"   // dania wegańskie/wegetariańskie
-  | "snack";       // przekąski
+export type MealIcon =
+  | "breakfast" // śniadanie - jajka, płatki, tosty
+  | "salad" // sałatki, warzywa
+  | "meat" // mięso, kurczak
+  | "fish" // ryby, owoce morza
+  | "pasta" // makarony, dania z makaronem
+  | "soup" // zupy
+  | "dessert" // desery, słodycze
+  | "fruit" // owoce, smoothie
+  | "vegetarian" // dania wegańskie/wegetariańskie
+  | "snack"; // przekąski
 
 /**
  * Structured AI-generated meal response.
@@ -79,13 +79,13 @@ export class MealGenerationError extends Error {
 
 /**
  * Service for generating meals using AI (OpenRouter + GPT-4o-mini).
- * 
+ *
  * Features:
  * - Structured JSON schema validation
  * - Type-safe meal generation
  * - Nutritional requirement enforcement
  * - Detailed ingredient and preparation steps
- * 
+ *
  * @example
  * ```ts
  * const service = new MealGenerationService();
@@ -103,19 +103,21 @@ export class MealGenerationService {
   readonly #model: string;
 
   constructor(openRouter?: OpenRouterService) {
-    this.#openRouter = openRouter ?? createOpenRouterService({
-      defaultModel: "openai/gpt-4o-mini",
-      defaultParams: {
-        temperature: 0.8,
-        max_tokens: 1500,
-      },
-    });
+    this.#openRouter =
+      openRouter ??
+      createOpenRouterService({
+        defaultModel: "openai/gpt-4o-mini",
+        defaultParams: {
+          temperature: 0.8,
+          max_tokens: 1500,
+        },
+      });
     this.#model = "openai/gpt-4o-mini";
   }
 
   /**
    * Generates a meal using AI based on provided parameters.
-   * 
+   *
    * @param params - Meal generation parameters (ranges, description, etc.)
    * @returns Generated meal with nutritional info, ingredients, and steps
    * @throws {MealGenerationError} If generation fails or response is invalid
@@ -162,10 +164,7 @@ export class MealGenerationService {
         throw error;
       }
 
-      throw new MealGenerationError(
-        "Failed to generate meal with AI",
-        error
-      );
+      throw new MealGenerationError("Failed to generate meal with AI", error);
     }
   }
 
@@ -181,41 +180,29 @@ export class MealGenerationService {
 
     // Validate calorie range
     if (kcal_range.min < 1 || kcal_range.max > 3000) {
-      throw new MealGenerationError(
-        "Calorie range must be between 1 and 3000 kcal"
-      );
+      throw new MealGenerationError("Calorie range must be between 1 and 3000 kcal");
     }
 
     if (kcal_range.min >= kcal_range.max) {
-      throw new MealGenerationError(
-        "Minimum calories must be less than maximum calories"
-      );
+      throw new MealGenerationError("Minimum calories must be less than maximum calories");
     }
 
     // Validate protein range
     if (protein_range.min < 1 || protein_range.max > 300) {
-      throw new MealGenerationError(
-        "Protein range must be between 1 and 300g"
-      );
+      throw new MealGenerationError("Protein range must be between 1 and 300g");
     }
 
     if (protein_range.min >= protein_range.max) {
-      throw new MealGenerationError(
-        "Minimum protein must be less than maximum protein"
-      );
+      throw new MealGenerationError("Minimum protein must be less than maximum protein");
     }
 
     // Validate description
     if (!description || description.trim().length === 0) {
-      throw new MealGenerationError(
-        "Description cannot be empty"
-      );
+      throw new MealGenerationError("Description cannot be empty");
     }
 
     if (description.length > 500) {
-      throw new MealGenerationError(
-        "Description is too long (max 500 characters)"
-      );
+      throw new MealGenerationError("Description is too long (max 500 characters)");
     }
   }
 
@@ -323,7 +310,8 @@ WAŻNE: Zwróć odpowiedź jako JSON zgodny ze schematem response_format.`;
             },
             icon: {
               type: "string",
-              description: "Kategoria ikony posiłku: breakfast, salad, meat, fish, pasta, soup, dessert, fruit, vegetarian, snack",
+              description:
+                "Kategoria ikony posiłku: breakfast, salad, meat, fish, pasta, soup, dessert, fruit, vegetarian, snack",
               enum: ["breakfast", "salad", "meat", "fish", "pasta", "soup", "dessert", "fruit", "vegetarian", "snack"],
             },
             ingredients: {
@@ -372,7 +360,18 @@ WAŻNE: Zwróć odpowiedź jako JSON zgodny ze schematem response_format.`;
       }
 
       // Validate icon is one of allowed values
-      const validIcons: MealIcon[] = ["breakfast", "salad", "meat", "fish", "pasta", "soup", "dessert", "fruit", "vegetarian", "snack"];
+      const validIcons: MealIcon[] = [
+        "breakfast",
+        "salad",
+        "meat",
+        "fish",
+        "pasta",
+        "soup",
+        "dessert",
+        "fruit",
+        "vegetarian",
+        "snack",
+      ];
       if (!validIcons.includes(meal.icon as MealIcon)) {
         throw new Error(`Invalid icon value: ${meal.icon}`);
       }
@@ -387,10 +386,7 @@ WAŻNE: Zwróć odpowiedź jako JSON zgodny ze schematem response_format.`;
 
       return meal;
     } catch (error) {
-      throw new MealGenerationError(
-        "Failed to parse AI response",
-        error
-      );
+      throw new MealGenerationError("Failed to parse AI response", error);
     }
   }
 
@@ -402,10 +398,7 @@ WAŻNE: Zwróć odpowiedź jako JSON zgodny ze schematem response_format.`;
 
     // Validate calorie range (with 10% tolerance)
     const kcalTolerance = (kcal_range.max - kcal_range.min) * 0.1;
-    if (
-      meal.kcal < kcal_range.min - kcalTolerance ||
-      meal.kcal > kcal_range.max + kcalTolerance
-    ) {
+    if (meal.kcal < kcal_range.min - kcalTolerance || meal.kcal > kcal_range.max + kcalTolerance) {
       throw new MealGenerationError(
         `Generated meal calories (${meal.kcal}) outside acceptable range (${kcal_range.min}-${kcal_range.max})`
       );
@@ -413,10 +406,7 @@ WAŻNE: Zwróć odpowiedź jako JSON zgodny ze schematem response_format.`;
 
     // Validate protein range (with 10% tolerance)
     const proteinTolerance = (protein_range.max - protein_range.min) * 0.1;
-    if (
-      meal.protein < protein_range.min - proteinTolerance ||
-      meal.protein > protein_range.max + proteinTolerance
-    ) {
+    if (meal.protein < protein_range.min - proteinTolerance || meal.protein > protein_range.max + proteinTolerance) {
       throw new MealGenerationError(
         `Generated meal protein (${meal.protein}g) outside acceptable range (${protein_range.min}-${protein_range.max}g)`
       );
@@ -431,10 +421,10 @@ WAŻNE: Zwróć odpowiedź jako JSON zgodny ze schematem response_format.`;
 /**
  * Creates a MealGenerationService instance.
  * Convenience factory for quick instantiation.
- * 
+ *
  * @param openRouter - Optional custom OpenRouter service instance
  * @returns Configured MealGenerationService
- * 
+ *
  * @example
  * ```ts
  * const service = createMealGenerationService();
@@ -444,4 +434,3 @@ WAŻNE: Zwróć odpowiedź jako JSON zgodny ze schematem response_format.`;
 export function createMealGenerationService(openRouter?: OpenRouterService): MealGenerationService {
   return new MealGenerationService(openRouter);
 }
-

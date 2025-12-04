@@ -28,34 +28,32 @@ export function MealCard({ meal, onClick }: MealCardProps) {
         }
       }}
     >
-      <CardContent className="p-3 space-y-2">
+      <CardContent className="p-2 sm:p-3 space-y-1.5 sm:space-y-2">
         {/* Meal image, icon, or placeholder */}
         <div className="aspect-video rounded-md overflow-hidden bg-muted relative">
           {hasIcon && iconName ? (
             <div className="w-full h-full flex items-center justify-center bg-primary/5">
-              {getMealIcon(iconName, "w-16 h-16 text-primary")}
+              {getMealIcon(iconName, "w-12 h-12 sm:w-16 sm:h-16 text-primary")}
             </div>
           ) : meal.image_path && !hasIcon ? (
             <img src={meal.image_path} alt={meal.name || "Zdjęcie posiłku"} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              {getPlaceholderIcon()}
-            </div>
+            <div className="w-full h-full flex items-center justify-center">{getPlaceholderIcon()}</div>
           )}
         </div>
 
         {/* Meal name */}
-        <h3 className="font-medium text-sm line-clamp-2 min-h-[2.5rem]" title={meal.name}>
+        <h3 className="font-medium text-xs sm:text-sm line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]" title={meal.name}>
           {meal.name || "Bez nazwy"}
         </h3>
 
         {/* Macros */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <div className="flex items-center gap-1">
+        <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground">
+          <div className="flex items-center gap-0.5 sm:gap-1">
             <span className="font-semibold text-foreground">{meal.kcal}</span>
             <span>kcal</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5 sm:gap-1">
             <span className="font-semibold text-foreground">{meal.protein}g</span>
             <span>białka</span>
           </div>
@@ -63,8 +61,8 @@ export function MealCard({ meal, onClick }: MealCardProps) {
 
         {/* Source indicator */}
         {meal.source === "ai_generated" && (
-          <div className="flex items-center gap-1 text-xs text-primary">
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+          <div className="flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-xs text-primary">
+            <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="currentColor" viewBox="0 0 20 20">
               <path d="M13 7H7v6h6V7z" />
               <path
                 fillRule="evenodd"

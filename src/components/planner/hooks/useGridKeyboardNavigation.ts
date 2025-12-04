@@ -81,7 +81,7 @@ export function useGridKeyboardNavigation({ days, mealTypes, onCellSelect }: Use
       const isInDialog = target.closest('[role="dialog"]') !== null;
       const isInInput = target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT";
       const isContentEditable = target.isContentEditable;
-      
+
       // Skip keyboard navigation if user is typing in a form element or inside a dialog
       if (isInDialog || isInInput || isContentEditable) {
         return;

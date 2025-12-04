@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
           error: "Nieprawidłowe dane formularza",
           details: result.error.errors,
         }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
+        { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -79,14 +79,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
           email: data.user?.email,
         },
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
+      { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
     console.error("Registration error:", error);
-    return new Response(
-      JSON.stringify({ error: "Wystąpił nieoczekiwany błąd" }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    return new Response(JSON.stringify({ error: "Wystąpił nieoczekiwany błąd" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
-

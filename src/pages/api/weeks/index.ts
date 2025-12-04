@@ -111,7 +111,7 @@ export const POST: APIRoute = async ({ locals, request }) => {
 
     // Step 2: Parse and validate request body
     const body = await request.json();
-    
+
     let validatedData;
     try {
       validatedData = CreateWeekSchema.parse(body);

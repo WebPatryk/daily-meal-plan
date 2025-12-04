@@ -18,21 +18,25 @@ e2e/
 ## Uruchamianie testów
 
 ### Uruchom wszystkie testy E2E
+
 ```bash
 npm run test:e2e
 ```
 
 ### Uruchom testy w trybie UI
+
 ```bash
 npm run test:e2e:ui
 ```
 
 ### Uruchom testy w trybie debug
+
 ```bash
 npm run test:e2e:debug
 ```
 
 ### Zobacz raport z testów
+
 ```bash
 npm run test:e2e:report
 ```
@@ -51,9 +55,11 @@ Jeśli nie zostaną ustawione, testy użyją domyślnych wartości.
 ## Przed uruchomieniem testów
 
 1. Upewnij się, że aplikacja jest uruchomiona na porcie 3000:
+
    ```bash
    npm run dev
    ```
+
    Serwer powinien być dostępny pod adresem `http://localhost:3000`
 
 2. Upewnij się, że masz konto testowe w bazie danych Supabase.
@@ -66,4 +72,3 @@ Test sprawdza proces logowania:
 
 1. **Poprawne logowanie** - Weryfikuje czy po podaniu poprawnych danych użytkownik jest przekierowywany na stronę `/planner`
 2. **Niepoprawne logowanie** - Weryfikuje czy przy błędnych danych wyświetla się komunikat błędu
-

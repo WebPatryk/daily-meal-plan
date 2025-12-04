@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AuthError } from "./AuthError";
 import { loginSchema, type LoginFormData } from "@/lib/schemas/auth";
-import { toast } from "sonner";
+import { useLogin } from "@/lib/hooks";
 
 interface LoginFormProps {
   onSubmit?: (data: LoginFormData) => Promise<void>;
@@ -13,79 +14,35 @@ interface LoginFormProps {
 }
 
 /**
- * Login form component with email, password, and remember me fields
+ * Login form component with email and password fields
+ * Uses React Hook Form for form management and validation
  */
 export function LoginForm({ onSubmit, redirectTo }: LoginFormProps) {
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof LoginFormData, string>>>({});
-  const [serverError, setServerError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-    setServerError(null);
+  const { login, serverError, clearError } = useLogin({ redirectTo });
 
-    // Validate form data
-    const result = loginSchema.safeParse(formData);
-
-    if (!result.success) {
-      const fieldErrors: Partial<Record<keyof LoginFormData, string>> = {};
-      result.error.errors.forEach((error) => {
-        if (error.path[0]) {
-          fieldErrors[error.path[0] as keyof LoginFormData] = error.message;
-        }
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
-    setIsLoading(true);
+  const onFormSubmit = async (data: LoginFormData) => {
+    clearError();
 
     try {
       if (onSubmit) {
-        await onSubmit(result.data);
+        await onSubmit(data);
       } else {
-        // Default behavior - call login API
-        const response = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(result.data),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          setServerError(data.error || "Wystąpił błąd podczas logowania");
-          return;
-        }
-
-        // Success - show toast and redirect
-        toast.success("Zalogowano pomyślnie!");
-
-        // Small delay to show toast before redirect
-        setTimeout(() => {
-          window.location.href = redirectTo || "/planner";
-        }, 500);
+        await login(data);
       }
-    } catch (error) {
-      setServerError(error instanceof Error ? error.message : "Wystąpił błąd podczas logowania");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleChange = (field: keyof LoginFormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    // Clear error for this field when user starts typing
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    } catch {
+      // Error is handled by useLogin hook
     }
   };
 
@@ -96,27 +53,24 @@ export function LoginForm({ onSubmit, redirectTo }: LoginFormProps) {
         <CardDescription>Wprowadź swoje dane, aby uzyskać dostęp do swojego konta</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4" noValidate>
           <AuthError message={serverError} />
 
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
-              name="email"
               type="email"
               placeholder="twoj@email.com"
-              value={formData.email}
-              onChange={handleChange("email")}
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "email-error" : undefined}
-              disabled={isLoading}
+              disabled={isSubmitting}
               autoComplete="email"
-              required
+              {...register("email")}
             />
             {errors.email && (
               <p id="email-error" className="text-sm text-destructive" role="alert">
-                {errors.email}
+                {errors.email.message}
               </p>
             )}
           </div>
@@ -127,26 +81,23 @@ export function LoginForm({ onSubmit, redirectTo }: LoginFormProps) {
             </div>
             <Input
               id="password"
-              name="password"
               type="password"
               placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange("password")}
               aria-invalid={!!errors.password}
               aria-describedby={errors.password ? "password-error" : undefined}
-              disabled={isLoading}
+              disabled={isSubmitting}
               autoComplete="current-password"
-              required
+              {...register("password")}
             />
             {errors.password && (
               <p id="password-error" className="text-sm text-destructive" role="alert">
-                {errors.password}
+                {errors.password.message}
               </p>
             )}
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Logowanie..." : "Zaloguj się"}
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Logowanie..." : "Zaloguj się"}
           </Button>
 
           <div className="text-center text-sm">

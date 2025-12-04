@@ -68,9 +68,7 @@ export async function getCurrentWeek(): Promise<WeekDto> {
  * @returns The week for the specified start date
  */
 export async function getWeekByDate(startDate: string): Promise<WeekDto> {
-  const response = await fetchApi<PaginatedResponse<WeekDto>>(
-    `${API_BASE}/weeks?start_date=${startDate}&limit=1`
-  );
+  const response = await fetchApi<PaginatedResponse<WeekDto>>(`${API_BASE}/weeks?start_date=${startDate}&limit=1`);
 
   // If week exists, return it
   if (response.items.length > 0) {

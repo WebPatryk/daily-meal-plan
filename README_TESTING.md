@@ -5,26 +5,26 @@
 Przed uruchomieniem testów E2E upewnij się, że:
 
 1. **Skonfigurowano zmienne środowiskowe**
-   
+
    Skopiuj plik `.env.example` do `.env` i uzupełnij go swoimi danymi:
-   
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Wymagane zmienne:
    - `SUPABASE_URL` - URL Twojego projektu Supabase
    - `SUPABASE_KEY` - Klucz anon/public z Supabase
    - `OPENROUTER_API_KEY` - Klucz API OpenRouter (opcjonalny dla testów auth)
 
 2. **Zainstalowano zależności**
-   
+
    ```bash
    npm install
    ```
 
 3. **Uruchomiono lokalną bazę danych Supabase (opcjonalnie)**
-   
+
    ```bash
    npx supabase start
    ```
@@ -53,13 +53,13 @@ npm run test:e2e
 ### Opcja 2: Z ręcznym uruchomieniem serwera
 
 1. W pierwszym terminalu uruchom serwer deweloperski:
-   
+
    ```bash
    npm run dev
    ```
 
 2. W drugim terminalu uruchom testy:
-   
+
    ```bash
    npx playwright test
    ```
@@ -76,7 +76,8 @@ npm run test:e2e
 
 **Problem**: Serwer nie jest uruchomiony.
 
-**Rozwiązanie**: 
+**Rozwiązanie**:
+
 1. Sprawdź czy plik `.env` istnieje i zawiera poprawne dane
 2. Uruchom serwer ręcznie: `npm run dev`
 3. Upewnij się, że port 4321 jest wolny
@@ -86,6 +87,7 @@ npm run test:e2e
 **Problem**: Serwer nie może się uruchomić w ciągu 120 sekund.
 
 **Rozwiązanie**:
+
 1. Sprawdź logi serwera i popraw ewentualne błędy
 2. Upewnij się, że masz skonfigurowane wszystkie wymagane zmienne środowiskowe
 3. Użyj opcji 2 (ręczne uruchomienie serwera)
@@ -95,6 +97,7 @@ npm run test:e2e
 **Problem**: Brak pliku `src/db/supabase.client.ts` lub niepoprawna konfiguracja.
 
 **Rozwiązanie**:
+
 1. Upewnij się, że folder `src/db` istnieje
 2. Sprawdź czy pliki `supabase.client.ts` i `database.types.ts` są w folderze `src/db`
 3. Uruchom migracje: `npx supabase db reset`
@@ -123,9 +126,7 @@ test("my test", async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.navigate();
   await loginPage.login("user@example.com", "password");
-  
+
   await expect(page).toHaveURL(/.*\/planner/);
 });
 ```
-
-

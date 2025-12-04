@@ -13,8 +13,8 @@ Głównym celem jest uproszczenie planowania diety oraz zapewnienie zgodności z
 
 ## 2. Routing widoku
 
-| Metoda | Ścieżka  | Opis                         |
-|--------|----------|------------------------------|
+| Metoda | Ścieżka    | Opis                          |
+| ------ | ---------- | ----------------------------- |
 | GET    | `/planner` | Główny widok planera tygodnia |
 
 ## 3. Struktura komponentów
@@ -155,14 +155,14 @@ export type MealFormValues = z.infer<typeof MealFormSchema>;
 
 ## 7. Integracja API
 
-| Akcja                   | Endpoint                                   | Metoda | Typy żądania                    | Typy odpowiedzi           |
-|-------------------------|--------------------------------------------|--------|---------------------------------|---------------------------|
-| POBIERZ bieżący tydzień | `/api/weeks?limit=1&history=false`         | GET    | _brak_                          | `PaginatedResponse<Week>` |
-| POBIERZ posiłki         | `/api/weeks/{week_id}/meals` (przyszły)    | GET    | _brak_                          | `MealDto[]`               |
-| DODAJ posiłek           | `/api/weeks/{week_id}/meals`               | POST   | `CreateMealCommand`             | `MealDto`                 |
-| EDYTUJ posiłek          | `/api/meals/{meal_id}`                     | PATCH  | `UpdateMealCommand`             | `MealDto`                 |
-| AI Generate             | `/api/meals/ai-generate`                   | POST   | `AiGenerateMealCommand`         | `MealDto`                 |
-| Upload miniatury        | `/api/meals/{meal_id}/image`               | PUT    | `PutMealImageCommand` (`File`)  | `204`                     |
+| Akcja                   | Endpoint                                | Metoda | Typy żądania                   | Typy odpowiedzi           |
+| ----------------------- | --------------------------------------- | ------ | ------------------------------ | ------------------------- |
+| POBIERZ bieżący tydzień | `/api/weeks?limit=1&history=false`      | GET    | _brak_                         | `PaginatedResponse<Week>` |
+| POBIERZ posiłki         | `/api/weeks/{week_id}/meals` (przyszły) | GET    | _brak_                         | `MealDto[]`               |
+| DODAJ posiłek           | `/api/weeks/{week_id}/meals`            | POST   | `CreateMealCommand`            | `MealDto`                 |
+| EDYTUJ posiłek          | `/api/meals/{meal_id}`                  | PATCH  | `UpdateMealCommand`            | `MealDto`                 |
+| AI Generate             | `/api/meals/ai-generate`                | POST   | `AiGenerateMealCommand`        | `MealDto`                 |
+| Upload miniatury        | `/api/meals/{meal_id}/image`            | PUT    | `PutMealImageCommand` (`File`) | `204`                     |
 
 ## 8. Interakcje użytkownika
 
@@ -175,12 +175,12 @@ export type MealFormValues = z.infer<typeof MealFormSchema>;
 
 ## 9. Warunki i walidacja
 
-| Pole          | Warunek UI                      | Błąd   |
-|---------------|---------------------------------|--------|
-| `kcal`        | 1 ≤ kcal ≤ 3000                 | „Kcal poza zakresem” |
-| `protein`     | 1 ≤ protein ≤ 300               | „Białko poza zakresem” |
-| `image`       | size ≤ 1 MB, type = image/*     | „Plik za duży / zły format” |
-| Zak. energii  | suma kcal > cel → highlight col.| kolor `bg-red-50` |
+| Pole         | Warunek UI                       | Błąd                        |
+| ------------ | -------------------------------- | --------------------------- |
+| `kcal`       | 1 ≤ kcal ≤ 3000                  | „Kcal poza zakresem”        |
+| `protein`    | 1 ≤ protein ≤ 300                | „Białko poza zakresem”      |
+| `image`      | size ≤ 1 MB, type = image/\*     | „Plik za duży / zły format” |
+| Zak. energii | suma kcal > cel → highlight col. | kolor `bg-red-50`           |
 
 Walidacja za pomocą Zod + komunikaty i aria-live.
 
