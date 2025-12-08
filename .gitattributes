@@ -1,0 +1,2 @@
+# Ensure consistent CRLF line endings across all platforms
+* text=auto eol=crlf
