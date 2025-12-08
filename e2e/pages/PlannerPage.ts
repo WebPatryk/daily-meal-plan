@@ -87,4 +87,3 @@ export class PlannerPage extends BasePage {
     return await this.page.locator("[data-sonner-toast]").first().textContent();
   }
 }
-

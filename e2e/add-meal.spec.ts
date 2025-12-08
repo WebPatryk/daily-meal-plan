@@ -67,4 +67,3 @@ test.describe("Dodawanie posiłku do planu tygodniowego", () => {
     expect(cellText).toContain(mealData.name);
   });
 });
-

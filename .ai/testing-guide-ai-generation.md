@@ -329,3 +329,4 @@ W razie pytań lub problemów, sprawdź:
 - `src/lib/generation.service.ts` - kod źródłowy
 - OpenRouter docs: https://openrouter.ai/docs
 
+

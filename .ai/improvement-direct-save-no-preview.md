@@ -324,3 +324,4 @@ import { MealCard } from "./MealCard";
 **Impact:** High (lepsze UX, prostszy kod)  
 **Breaking changes:** None (tylko frontend)
 
+

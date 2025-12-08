@@ -13,6 +13,11 @@ const PUBLIC_PATHS = [
 ];
 
 export const onRequest = defineMiddleware(async ({ locals, cookies, url, request, redirect }, next) => {
+  // Early redirect from root path to planner
+  if (url.pathname === "/") {
+    return redirect("/planner");
+  }
+
   // Skip auth check for public paths
   if (PUBLIC_PATHS.includes(url.pathname)) {
     return next();

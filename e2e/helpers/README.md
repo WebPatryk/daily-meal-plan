@@ -97,3 +97,4 @@ export async function cleanTable(tableName: string, userId: string) {
 }
 ```
 
+
