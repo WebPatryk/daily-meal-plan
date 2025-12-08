@@ -125,4 +125,3 @@ Po skonfigurowaniu wszystkich sekretów:
 - [Cloudflare Pages Documentation](https://developers.cloudflare.com/pages/)
 - [Wrangler Action GitHub Repository](https://github.com/cloudflare/wrangler-action)
 - [Supabase Documentation](https://supabase.com/docs)
-

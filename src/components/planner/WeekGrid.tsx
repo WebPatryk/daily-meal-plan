@@ -99,7 +99,7 @@ export function WeekGrid({ cells, onCellClick, caloriesOverLimit = false }: Week
     }
   };
 
-  const { focusedPosition, isFocused, handleKeyDown } = useGridKeyboardNavigation({
+  const { isFocused, handleKeyDown } = useGridKeyboardNavigation({
     days: visibleDays, // Only navigate through visible days
     mealTypes: MEAL_TYPES,
     onCellSelect: (position) => {

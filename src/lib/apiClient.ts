@@ -137,7 +137,7 @@ export async function updateMeal(mealId: string, meal: UpdateMealCommand): Promi
  * @param mealId - The meal's UUID
  */
 export async function deleteMeal(mealId: string): Promise<void> {
-  return fetchApi<void>(`${API_BASE}/meals/${mealId}`, {
+  return fetchApi<undefined>(`${API_BASE}/meals/${mealId}`, {
     method: "DELETE",
   });
 }

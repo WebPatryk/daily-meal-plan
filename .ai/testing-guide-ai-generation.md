@@ -328,5 +328,3 @@ W razie pytań lub problemów, sprawdź:
 - `.ai/generation-service-summary.md` - szczegóły implementacji
 - `src/lib/generation.service.ts` - kod źródłowy
 - OpenRouter docs: https://openrouter.ai/docs
-
-

@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AiGenerateMealSchema, type AiGenerateMealFormValues } from "../../lib/schemas/meals";
 import { generateMealWithAI } from "../../lib/apiClient";
-import type { MealDto, DayOfWeek, MealType } from "../../types";
+import type { DayOfWeek, MealType } from "../../types";
 
 interface GenerateMealDialogProps {
   isOpen: boolean;

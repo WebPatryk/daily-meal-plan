@@ -1,4 +1,3 @@
-import type { Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 /**
@@ -11,10 +10,6 @@ export class LoginPage extends BasePage {
   private readonly submitButton = 'button[type="submit"]';
   private readonly errorMessage = '[role="alert"]';
   private readonly registerLink = 'a[href="/auth/register"]';
-
-  constructor(page: Page) {
-    super(page);
-  }
 
   /**
    * Nawiguj do strony logowania

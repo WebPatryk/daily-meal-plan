@@ -80,12 +80,12 @@ export function WeekPlannerLayout() {
         if (data.image && data.image[0] instanceof File) {
           const meal = state.meals.find((m) => m.day_of_week === day && m.meal_type === mealType);
           if (meal) {
-            await uploadMealImage(meal.meal_id, data.image[0]);
+            await uploadMealImage(String(meal.meal_id), data.image[0]);
           }
         }
       } else if (dialogState.mode === "edit" && dialogState.meal) {
         // Update existing meal
-        await updateMeal(dialogState.meal.meal_id, {
+        await updateMeal(String(dialogState.meal.meal_id), {
           name: data.name,
           kcal: data.kcal,
           protein: data.protein,
@@ -97,7 +97,7 @@ export function WeekPlannerLayout() {
 
         // Handle image upload if provided
         if (data.image && data.image[0] instanceof File) {
-          await uploadMealImage(dialogState.meal.meal_id, data.image[0]);
+          await uploadMealImage(String(dialogState.meal.meal_id), data.image[0]);
         }
       }
 
@@ -216,7 +216,9 @@ export function WeekPlannerLayout() {
         onDelete={
           dialogState.mode === "edit" && dialogState.meal
             ? async () => {
-                await deleteMeal(dialogState.meal!.meal_id);
+                if (dialogState.meal) {
+                  await deleteMeal(String(dialogState.meal.meal_id));
+                }
               }
             : undefined
         }

@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MealFormSchema, type MealFormValues } from "../../lib/schemas/meals";
-import type { MealDto, CreateMealCommand, UpdateMealCommand } from "../../types";
+import type { MealDto } from "../../types";
 import { isIconPath, extractIconName, getMealIcon } from "../../lib/mealIcons";
 
 interface MealDialogProps {
@@ -222,7 +222,10 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
                   Aktualnie wyświetlana ikona (wygenerowana przez AI):
                 </p>
                 <div className="flex items-center justify-center">
-                  {getMealIcon(extractIconName(meal.image_path)!, "w-12 h-12 text-primary")}
+                  {(() => {
+                    const iconName = extractIconName(meal.image_path);
+                    return iconName ? getMealIcon(iconName, "w-12 h-12 text-primary") : null;
+                  })()}
                 </div>
                 <p className="text-xs text-muted-foreground text-center mt-2">
                   Możesz dodać własne zdjęcie, które zastąpi tę ikonę

@@ -180,5 +180,3 @@ Zobacz plik `.github/CLOUDFLARE_SETUP.md` dla szczegółowego troubleshootingu.
 **Autor:** AI Assistant  
 **Data:** 2025-12-05  
 **Wersja:** 1.0
-
-

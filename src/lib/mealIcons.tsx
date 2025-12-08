@@ -3,6 +3,8 @@
  * Provides utilities for working with meal icons
  */
 
+import type { JSX } from "react";
+
 export type MealIconName =
   | "breakfast" // śniadanie - jajka, płatki, tosty
   | "salad" // sałatki, warzywa
@@ -27,7 +29,7 @@ export function isIconPath(imagePath: string | null | undefined): boolean {
  */
 export function extractIconName(imagePath: string | null | undefined): MealIconName | null {
   if (!isIconPath(imagePath)) return null;
-  const iconName = imagePath!.replace("icon:", "");
+  const iconName = (imagePath as string).replace("icon:", "");
   return iconName as MealIconName;
 }
 

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { toast } from "sonner";
-import type { PlannerContextValue, ActiveWeekState, CreateMealCommand, UpdateMealCommand } from "../../types";
+import type { PlannerContextValue, ActiveWeekState, CreateMealCommand, UpdateMealCommand, WeekDto } from "../../types";
 import { getCurrentWeek, getWeekByDate, getWeekMeals, createMeal, updateMeal, deleteMeal } from "../../lib/apiClient";
 
 const PlannerContext = createContext<PlannerContextValue | undefined>(undefined);
@@ -24,8 +24,8 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
   const calculateTotals = useCallback((meals: ActiveWeekState["meals"]) => {
     return meals.reduce(
       (acc, meal) => ({
-        kcal: acc.kcal + meal.kcal,
-        protein: acc.protein + meal.protein,
+        kcal: acc.kcal + (meal.kcal ?? 0),
+        protein: acc.protein + (meal.protein ?? 0),
       }),
       { kcal: 0, protein: 0 }
     );
@@ -41,7 +41,7 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
 
       // getCurrentWeek() now always returns a week (creates if doesn't exist)
       const week = await getCurrentWeek();
-      const meals = await getWeekMeals(week.week_id);
+      const meals = await getWeekMeals(String(week.week_id));
       const totals = calculateTotals(meals);
 
       setState({
@@ -66,7 +66,7 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
         setError(undefined);
 
         const week = await getWeekByDate(startDate);
-        const meals = await getWeekMeals(week.week_id);
+        const meals = await getWeekMeals(String(week.week_id));
         const totals = calculateTotals(meals);
 
         setState({
@@ -98,7 +98,7 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
       if (!state) return;
 
       try {
-        const newMeal = await createMeal(state.week.week_id, meal);
+        const newMeal = await createMeal(String(state.week.week_id), meal);
 
         setState((prev) => {
           if (!prev) return prev;
@@ -132,11 +132,11 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
       if (!state) return;
 
       try {
-        const updatedMeal = await updateMeal(mealId, mealUpdate);
+        const updatedMeal = await updateMeal(String(mealId), mealUpdate);
 
         setState((prev) => {
           if (!prev) return prev;
-          const meals = prev.meals.map((m) => (m.meal_id === mealId ? updatedMeal : m));
+          const meals = prev.meals.map((m) => (String(m.meal_id) === mealId ? updatedMeal : m));
           return {
             ...prev,
             meals,
@@ -164,11 +164,11 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
       if (!state) return;
 
       try {
-        await deleteMeal(mealId);
+        await deleteMeal(String(mealId));
 
         setState((prev) => {
           if (!prev) return prev;
-          const meals = prev.meals.filter((m) => m.meal_id !== mealId);
+          const meals = prev.meals.filter((m) => String(m.meal_id) !== mealId);
           return {
             ...prev,
             meals,
@@ -221,7 +221,7 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
 
   const contextValue: PlannerContextValue = {
     state: state || {
-      week: {} as any,
+      week: {} as unknown as WeekDto,
       meals: [],
       totals: { kcal: 0, protein: 0 },
     },

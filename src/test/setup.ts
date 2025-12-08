@@ -15,7 +15,15 @@ vi.stubGlobal("import.meta", {
   },
 });
 
-// Mock dla Astro.locals (jeśli potrzebne w testach)
+// Mock for Astro.locals (if accessed in tests)
+declare global {
+  // Extend the global namespace just for tests
+  // eslint-disable-next-line no-var
+  var Astro: {
+    locals: Record<string, unknown>;
+  };
+}
+
 globalThis.Astro = {
   locals: {},
-} as any;
+};

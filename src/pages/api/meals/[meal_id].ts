@@ -78,7 +78,7 @@ export const PATCH: APIRoute = async ({ locals, params, request }) => {
     const { data: existingMeal, error: fetchError } = await locals.supabase
       .from("meals")
       .select("*")
-      .eq("meal_id", meal_id)
+      .eq("meal_id", Number(meal_id))
       .eq("user_id", user.id)
       .single();
 
@@ -103,7 +103,7 @@ export const PATCH: APIRoute = async ({ locals, params, request }) => {
       steps: updateData.steps ?? aiProposition?.steps ?? [],
     };
 
-    const dbUpdate: any = {
+    const dbUpdate: Record<string, unknown> = {
       updated_at: new Date().toISOString(),
     };
 
@@ -123,7 +123,7 @@ export const PATCH: APIRoute = async ({ locals, params, request }) => {
     const { data: updatedMeal, error: updateError } = await locals.supabase
       .from("meals")
       .update(dbUpdate)
-      .eq("meal_id", meal_id)
+      .eq("meal_id", Number(meal_id))
       .eq("user_id", user.id)
       .select()
       .single();
@@ -198,7 +198,7 @@ export const DELETE: APIRoute = async ({ locals, params }) => {
     const { error: deleteError } = await locals.supabase
       .from("meals")
       .delete()
-      .eq("meal_id", meal_id)
+      .eq("meal_id", Number(meal_id))
       .eq("user_id", user.id);
 
     if (deleteError) {

@@ -1,4 +1,3 @@
-import type { Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 type DayOfWeek = "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday";
@@ -8,10 +7,6 @@ type MealType = "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
  * Page Object Model dla strony plannera
  */
 export class PlannerPage extends BasePage {
-  constructor(page: Page) {
-    super(page);
-  }
-
   /**
    * Nawiguj do strony plannera
    */

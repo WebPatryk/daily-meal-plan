@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import type { Mock } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { LogoutButton } from "./LogoutButton";
@@ -19,9 +20,12 @@ describe("LogoutButton", () => {
     // Mock fetch API
     global.fetch = vi.fn();
 
-    // Mock window.location
-    delete (window as any).location;
-    window.location = { href: "" } as any;
+    // Mock window.location – redefine with writable href
+    Object.defineProperty(window, "location", {
+      value: { href: "" },
+      writable: true,
+      configurable: true,
+    });
   });
 
   it("should render logout button", () => {
@@ -35,8 +39,11 @@ describe("LogoutButton", () => {
     const user = userEvent.setup();
 
     // Mock fetch do zwrócenia pending promise
-    (global.fetch as any).mockImplementation(
-      () => new Promise(() => {}) // Promise, który nigdy się nie resolve'uje
+    (global.fetch as Mock).mockImplementation(
+      () =>
+        new Promise(() => {
+          /* noop - suppress console noise during test */
+        }) // Promise, który nigdy się nie resolve'uje
     );
 
     render(<LogoutButton />);
@@ -53,7 +60,7 @@ describe("LogoutButton", () => {
     const user = userEvent.setup();
 
     // Mock successful API response
-    (global.fetch as any).mockResolvedValueOnce({
+    (global.fetch as Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({}),
     });
@@ -79,7 +86,7 @@ describe("LogoutButton", () => {
     const { toast } = await import("sonner");
 
     // Mock successful API response
-    (global.fetch as any).mockResolvedValueOnce({
+    (global.fetch as Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({}),
     });
@@ -103,7 +110,7 @@ describe("LogoutButton", () => {
     const { toast } = await import("sonner");
 
     // Mock error API response
-    (global.fetch as any).mockResolvedValueOnce({
+    (global.fetch as Mock).mockResolvedValueOnce({
       ok: false,
       json: async () => ({ error: "Unauthorized" }),
     });
@@ -127,10 +134,12 @@ describe("LogoutButton", () => {
     const { toast } = await import("sonner");
 
     // Mock network error
-    (global.fetch as any).mockRejectedValueOnce(new Error("Network error"));
+    (global.fetch as Mock).mockRejectedValueOnce(new Error("Network error"));
 
     // Mock console.error
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {
+      /* noop - suppress console noise during test */
+    });
 
     render(<LogoutButton />);
 
