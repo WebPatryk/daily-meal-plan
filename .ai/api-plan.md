@@ -6,7 +6,6 @@
 - **Week** – table `weeks` – weekly planning period starting on ISO-Monday for a specific user.
 - **Meal** – table `meals` – single meal slot (breakfast, lunch, etc.) belonging to a week & day.
 - **User Goal** – table `user_goals` – user-specific macro targets (kcal & protein) with validity ranges.
-- **History** – derived view – read-only listing of past weeks derived from `weeks` table.
 
 ---
 
@@ -18,9 +17,8 @@ Supabase already exposes `/signup`, `/token` and other auth routes – **no cust
 
 ### 2.2 Weeks
 
-- **GET `/weeks`** – list weeks for the current user (defaults to current + future). Supports:
+- **GET `/weeks`** – list weeks for the current user. Supports:
   - `start_date` – filter by ISO-Monday (YYYY-MM-DD)
-  - `history=true` – return only past weeks
   - `limit`, `offset` – pagination (default `limit=20`)
   - `sort` – `start_date` (`asc` | `desc`, default `desc`)
 - **POST `/weeks`** – create a new week. Body:
@@ -82,11 +80,6 @@ Supabase already exposes `/signup`, `/token` and other auth routes – **no cust
 - **GET `/user-goals/current`** – fetch the current active goal.
 - **PATCH `/user-goals/{goal_id}`** – close a goal by setting `valid_to`.
 
-### 2.5 History (convenience)
-
-- **GET `/history/weeks`** – list past weeks (pagination supported).
-- **GET `/history/weeks/{week_id}`** – retrieve a specific past week (read-only).
-
 ---
 
 ## 3. Authentication & Authorization
@@ -121,8 +114,7 @@ Supabase already exposes `/signup`, `/token` and other auth routes – **no cust
 - **AI meal generation (FR-06 / US-005)** – `POST /meals/ai-generate`
 - **Edit meal (FR-07 / US-006)** – `PATCH /meals/{meal_id}`
 - **Thumbnail storage (FR-08 / US-008)** – `PUT /meals/{meal_id}/image`
-- **History view (FR-10, FR-11 / US-007)** – `GET /history/weeks` (or `/weeks?history=true`)
-- **Back-end validation (FR-09 / US-009)** – enforced via DB constraints + edge validators
+- **Back-end validation (FR-09 / US-007)** – enforced via DB constraints + edge validators
 
 ---
 
@@ -165,4 +157,4 @@ Error payload format:
 - Use prepared statements (via Supabase client)
 - RLS prevents cross-user data leakage
 - Existing indexes (`idx_meals_user_week_day`, `idx_user_goals_current`) keep queries fast
-- CDN cache public GETs (history) for 30 s; private data `Cache-Control: no-store`
+- Private data `Cache-Control: no-store`

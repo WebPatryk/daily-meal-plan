@@ -154,34 +154,3 @@ export async function generateMealWithAI(command: AiGenerateMealCommand): Promis
     body: JSON.stringify(command),
   });
 }
-
-/**
- * Uploads an image for a meal.
- *
- * @param mealId - The meal's UUID
- * @param file - Image file (must be ≤ 1MB, type image/*)
- */
-export async function uploadMealImage(mealId: string, file: File): Promise<void> {
-  // Validate file size
-  if (file.size > 1024 * 1024) {
-    throw new Error("Plik jest zbyt duży. Maksymalny rozmiar to 1MB.");
-  }
-
-  // Validate file type
-  if (!file.type.startsWith("image/")) {
-    throw new Error("Plik musi być obrazem.");
-  }
-
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const response = await fetch(`${API_BASE}/meals/${mealId}/image`, {
-    method: "PUT",
-    body: formData,
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || `HTTP error! status: ${response.status}`);
-  }
-}

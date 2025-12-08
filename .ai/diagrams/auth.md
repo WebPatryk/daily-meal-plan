@@ -370,7 +370,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   context.locals.supabase = supabaseClient;
 
   // Sprawdzenie czy strona wymaga autentykacji
-  const protectedPaths = ["/dashboard", "/planner", "/profile", "/history"];
+  const protectedPaths = ["/dashboard", "/planner", "/profile"];
   const isProtectedPath = protectedPaths.some((path) => context.url.pathname.startsWith(path));
 
   if (isProtectedPath) {

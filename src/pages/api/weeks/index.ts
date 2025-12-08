@@ -11,7 +11,6 @@ import { logError } from "@/lib/utils";
  * - limit: number (1-100, default: 20)
  * - offset: number (≥0, default: 0)
  * - start_date: string (YYYY-MM-DD, optional)
- * - history: boolean (default: false)
  * - sort: "start_date:asc" | "start_date:desc" (default: "start_date:desc")
  *
  * Returns:
@@ -39,7 +38,6 @@ export const GET: APIRoute = async ({ locals, url }) => {
       limit: url.searchParams.get("limit") ?? undefined,
       offset: url.searchParams.get("offset") ?? undefined,
       start_date: url.searchParams.get("start_date") ?? undefined,
-      history: url.searchParams.get("history") ?? undefined,
       sort: url.searchParams.get("sort") ?? undefined,
     };
 

@@ -48,13 +48,14 @@ export function useRegister(options: UseRegisterOptions = {}): UseRegisterReturn
       toast.success("Rejestracja zakończona pomyślnie!");
 
       if (onSuccess) {
+        // If onSuccess callback is provided, use it instead of auto-redirect
         onSuccess();
+      } else {
+        // Small delay to show toast before redirect
+        setTimeout(() => {
+          window.location.href = redirectTo;
+        }, 500);
       }
-
-      // Small delay to show toast before redirect
-      setTimeout(() => {
-        window.location.href = redirectTo;
-      }, 500);
     } catch (error) {
       // Error already set in serverError state
       if (error instanceof Error && !serverError) {

@@ -19,14 +19,12 @@ FR-01 Rejestracja i logowanie użytkownika przy użyciu Supabase (e-mail + hasł
 FR-02 Podczas rejestracji użytkownik ustawia docelową dzienną liczbę kcal i białka (z możliwością późniejszej edycji).
 FR-03 Walidacja danych front-end (1–3000 kcal, 1–300 g białka na posiłek) oraz back-end (Supabase RLS lub Edge Function).
 FR-04 Wyświetlanie tygodniowego planera (grid 5 posiłków × 7 dni) z widokiem tylko na bieżący tydzień.
-FR-05 Ręczne dodawanie posiłku do dowolnej komórki gridu, w tym: nazwa, kcal, białko, Opcjonalne: składniki, kroki oraz zdjęcie ≤ 1 MB.
+FR-05 Ręczne dodawanie posiłku do dowolnej komórki gridu, w tym: nazwa, kcal, białko, Opcjonalne: składniki, kroki.
 FR-06 Generowanie posiłku przez AI po podaniu zakresu kcal/białka i opcjonalnego opisu; AI zwraca nazwę, makra, składniki, kroki i ikonę SVG.
 FR-07 Edycja istniejącego posiłku (nazwa, makra, składniki, kroki, zastąpienie miniatury).
-FR-08 Miniatury: zapisywanie obrazu użytkownika w Supabase Storage lub ikony SVG z AI.
+FR-08 Ikony posiłków: generowanie ikony SVG przez AI podczas tworzenia posiłku.
 FR-09 Zapisywanie i odczytywanie danych posiłków w tabeli `meals` (indeksy: user_id, date, meal_type).
-FR-10 Automatyczne przenoszenie zakończonych tygodni do widoku „Historia”.
-FR-11 Historia tygodni pozwala przeglądać plany z przeszłości (tylko odczyt).
-FR-12 UI zgodne z WCAG (kontrast, klawiatura, opisy alt, fokus).
+FR-10 UI zgodne z WCAG (kontrast, klawiatura, opisy alt, fokus).
 
 ## 4. Granice produktu
 
@@ -34,7 +32,7 @@ GB-01 Brak importu przepisów z URL w MVP.
 GB-02 Brak funkcji społecznościowych i udostępniania przepisów.
 GB-03 Brak limitu wywołań AI w MVP (może ulec zmianie w kolejnych wersjach).
 GB-04 Widok offline nieobsługiwany.
-GB-05 Obsługiwany wyłącznie bieżący tydzień; tygodnie historyczne dostępne w zakładce „Historia”.
+GB-05 Obsługiwany wyłącznie bieżący tydzień.
 
 ## 5. Historyjki użytkowników
 
@@ -73,7 +71,6 @@ Kryteria akceptacji:
 
 - Użytkownik wybiera dzień oraz typ posiłku.
 - Formularz umożliwia wpisanie nazwy, makr, opcjonalnie składników i kroków.
-- Użytkownik może wgrać zdjęcie ≤ 1 MB; plik przechowywany jest w Supabase Storage.
 - Po zapisaniu posiłek pojawia się w odpowiedniej komórce gridu.
 
 ID: US-005  
@@ -91,28 +88,10 @@ Opis: Jako użytkownik chcę edytować istniejący posiłek, aby dopasować go d
 Kryteria akceptacji:
 
 - Kliknięcie posiłku otwiera formularz edycji (modal).
-- Użytkownik może zmienić nazwę, makra, składniki, kroki i miniaturę.
+- Użytkownik może zmienić nazwę, makra, składniki i kroki.
 - Zmiany można zapisać lub anulować; po zapisie dane aktualizują się w tabeli `meals`.
 
 ID: US-007  
-Tytuł: Przegląd historii  
-Opis: Jako użytkownik chcę przeglądać jadłospisy z wcześniejszych tygodni, aby móc do nich wracać.  
-Kryteria akceptacji:
-
-- Zakładka „Historia” wyświetla listę zakończonych tygodni.
-- Użytkownik może otworzyć dowolny tydzień w trybie tylko do odczytu.
-- Dane historii są pobierane z tabeli `meals`.
-
-ID: US-008  
-Tytuł: Bezpieczne przechowywanie zdjęć  
-Opis: Jako użytkownik chcę, aby moje zdjęcia były przechowywane bezpiecznie, aby nikt nieuprawniony nie miał do nich dostępu.  
-Kryteria akceptacji:
-
-- Zdjęcia przesyłane są do Supabase Storage z signed URLs.
-- Maksymalny rozmiar zdjęcia ≤ 1 MB walidowany jest front-end.
-- Dostęp do zdjęcia wymaga uwierzytelnionej sesji lub wygenerowanego URL.
-
-ID: US-009  
 Tytuł: Walidacja makr back-end  
 Opis: Jako system chcę uniemożliwić zapisanie posiłku z niepoprawnymi makrami, aby zachować integralność danych.  
 Kryteria akceptacji:

@@ -15,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MealFormSchema, type MealFormValues } from "../../lib/schemas/meals";
 import type { MealDto } from "../../types";
-import { isIconPath, extractIconName, getMealIcon } from "../../lib/mealIcons";
 
 interface MealDialogProps {
   mode: "add" | "edit";
@@ -34,14 +33,12 @@ interface MealDialogProps {
 export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultValues, meal }: MealDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
   } = useForm<MealFormValues>({
     resolver: zodResolver(MealFormSchema),
     defaultValues: defaultValues || {
@@ -74,31 +71,10 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
     }
   }, [meal, mode, reset]);
 
-  // Watch image field for preview
-  const imageFile = watch("image");
-
-  // Update preview when image changes
-  useEffect(() => {
-    if (imageFile && imageFile[0] instanceof File) {
-      const file = imageFile[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else if (meal?.image_path && !isIconPath(meal.image_path)) {
-      // Only set preview for actual image paths, not icons
-      setImagePreview(meal.image_path);
-    } else {
-      setImagePreview(null);
-    }
-  }, [imageFile, meal?.image_path]);
-
   // Reset form when dialog closes
   useEffect(() => {
     if (!isOpen) {
       reset();
-      setImagePreview(null);
     }
   }, [isOpen, reset]);
 
@@ -137,9 +113,7 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
         <DialogHeader>
           <DialogTitle>{mode === "add" ? "Dodaj nowy posiłek" : "Edytuj posiłek"}</DialogTitle>
           <DialogDescription>
-            {mode === "add"
-              ? "Wypełnij dane posiłku. Możesz dodać zdjęcie lub pominąć to pole."
-              : "Zaktualizuj dane posiłku."}
+            {mode === "add" ? "Wypełnij dane posiłku." : "Zaktualizuj dane posiłku."}
           </DialogDescription>
         </DialogHeader>
 
@@ -209,41 +183,6 @@ export function MealDialog({ mode, isOpen, onClose, onSubmit, onDelete, defaultV
                 </p>
               )}
             </div>
-          </div>
-
-          {/* Image Upload */}
-          <div className="space-y-2">
-            <Label htmlFor="image">Zdjęcie posiłku (opcjonalne, max 1MB)</Label>
-
-            {/* Show current icon if meal has one */}
-            {meal?.image_path && isIconPath(meal.image_path) && (
-              <div className="mb-2 p-4 bg-primary/5 rounded-md border border-primary/20">
-                <p className="text-xs text-muted-foreground mb-2">
-                  Aktualnie wyświetlana ikona (wygenerowana przez AI):
-                </p>
-                <div className="flex items-center justify-center">
-                  {(() => {
-                    const iconName = extractIconName(meal.image_path);
-                    return iconName ? getMealIcon(iconName, "w-12 h-12 text-primary") : null;
-                  })()}
-                </div>
-                <p className="text-xs text-muted-foreground text-center mt-2">
-                  Możesz dodać własne zdjęcie, które zastąpi tę ikonę
-                </p>
-              </div>
-            )}
-
-            <Input id="image" type="file" accept="image/*" {...register("image")} aria-describedby="image-hint" />
-            <p id="image-hint" className="text-xs text-muted-foreground">
-              Akceptowane formaty: JPG, PNG, GIF, WebP. Maksymalny rozmiar: 1MB
-            </p>
-
-            {/* Image Preview (for uploaded files) */}
-            {imagePreview && (
-              <div className="mt-2">
-                <img src={imagePreview} alt="Podgląd zdjęcia" className="w-full h-48 object-cover rounded-md border" />
-              </div>
-            )}
           </div>
 
           {/* Ingredients - Optional */}

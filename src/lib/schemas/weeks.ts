@@ -7,7 +7,6 @@ import { z } from "zod";
  * - limit: number between 1 and 100 (default: 20)
  * - offset: non-negative integer (default: 0)
  * - start_date: ISO date string in YYYY-MM-DD format (optional)
- * - history: boolean flag to include past weeks (default: false)
  * - sort: sorting order for start_date (default: "start_date:desc")
  */
 export const WeeksQuerySchema = z.object({
@@ -35,12 +34,6 @@ export const WeeksQuerySchema = z.object({
       },
       { message: "start_date must be a valid date" }
     ),
-
-  history: z
-    .string()
-    .optional()
-    .transform((val) => val === "true")
-    .pipe(z.boolean()),
 
   sort: z.enum(["start_date:asc", "start_date:desc"]).optional().default("start_date:desc"),
 });

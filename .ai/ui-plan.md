@@ -8,9 +8,8 @@ Kluczowe filary UI:
 
 1. **Dashboard** – szybki przegląd postępów i skrót do najważniejszych akcji.
 2. **Planer Tygodnia** – adaptacyjna, dostępnościowa siatka posiłków bieżącego tygodnia.
-3. **Historia** – paginowana lista zakończonych tygodni (tylko odczyt).
-4. **Profil** – zarządzanie celami makro, motywem i kontem.
-5. **Onboarding** – modal/strona inicjująca ustawienie celów przy pierwszym logowaniu.
+3. **Profil** – zarządzanie celami makro, motywem i kontem.
+4. **Onboarding** – modal/strona inicjująca ustawienie celów przy pierwszym logowaniu.
 
 ## 2. Lista widoków
 
@@ -37,17 +36,7 @@ Kluczowe filary UI:
 - **UX & A11y**: Fokus roti, klawisze strzałek poruszają po gridzie; Tooltip przy makrach; Dialog trap-focus.
 - **Bezpieczeństwo**: Operacje CRUD przez `/weeks/{id}/meals` z walidacją; upload zdjęcia ≤1 MB.
 
-### 2.3 Historia
-
-- **Ścieżka**: `/history`
-- **Cel**: Przegląd zakończonych tygodni.
-- **Informacje**:
-  - Lista kart tygodni (start_date, podsumowanie makr)
-- **Komponenty**: CardList, Pagination, Button (view details).
-- **UX & A11y**: Lazy-loading list z aria-busy; Paginate `limit/offset`.
-- **Bezpieczeństwo**: Tylko odczyt, GET `/weeks?history=true`.
-
-### 2.4 Profil
+### 2.3 Profil
 
 - **Ścieżka**: `/profile`
 - **Cel**: Ustawienia makro-celów, motywu i konta.
@@ -59,7 +48,7 @@ Kluczowe filary UI:
 - **UX & A11y**: Walidacja inline; aria-describedby dla błędów.
 - **Bezpieczeństwo**: PATCH `/user-goals/{id}` lub POST `/user-goals`; Refresh token przy akcjach konta.
 
-### 2.5 Onboarding (Modal)
+### 2.4 Onboarding (Modal)
 
 - **Ścieżka**: renderowany globalnie, aktywowany gdy 404 z `/user-goals/current`.
 - **Cel**: Pierwsze ustawienie celów makro.
@@ -68,7 +57,7 @@ Kluczowe filary UI:
 - **UX & A11y**: Trap-focus; wyraźna progresja; zamknięcie tylko po sukcesie.
 - **Bezpieczeństwo**: POST `/user-goals` (nowy rekord).
 
-### 2.6 Strony uwierzytelniania (Supabase Auth UI)
+### 2.5 Strony uwierzytelniania (Supabase Auth UI)
 
 - **Ścieżki**: `/login`, `/signup`, `/reset-password`
 - **Cel**: Zarządzanie sesją użytkownika.
@@ -86,7 +75,6 @@ Kluczowe filary UI:
    5. Ląduje na Dashboard → widzi pusty tydzień.
    6. Przechodzi do **Planera Tygodnia** → klika komórkę → `MealDialog` (manual/AI).
    7. Dodaje posiłki; grid się aktualizuje.
-   8. Po zakończeniu tygodnia (automatycznie) widok pojawia się w **Historii**.
 
 2. **Powracający użytkownik**:
    1. `/login` → sukces → `/`.
@@ -96,7 +84,7 @@ Kluczowe filary UI:
 ## 4. Układ i struktura nawigacji
 
 - **Desktop ≥md**:
-  - Pasek boczny z logo, linkami (Dashboard, Planer, Historia, Profil), licznik makr.
+  - Pasek boczny z logo, linkami (Dashboard, Planer, Profil), licznik makr.
 - **Mobile <md**:
   - Przyciski w dolnym Sheet-menu (`Sheet` z Shadcn) lub hamburger.
 - **Routing**: React Router (file-based w Astro) z `ProtectedRoute`.
@@ -106,20 +94,19 @@ Kluczowe filary UI:
 
 ## 5. Kluczowe komponenty
 
-| Komponent        | Cel                                   | Gdzie używany             |
-| ---------------- | ------------------------------------- | ------------------------- |
-| `AuthProvider`   | Zarządzanie sesją, odświeżanie tokenu | Global wrapper            |
-| `ProtectedRoute` | Blokada tras dla nieauth.             | Wszystkie trasy app       |
-| `ShellLayout`    | Layout z nawigacją                    | Global                    |
-| `AccessibleGrid` | Semantyczna siatka posiłków           | Planer Tygodnia           |
-| `MealCard`       | Widok pojedynczego posiłku w gridzie  | Planer Tygodnia, Historia |
-| `MealDialog`     | Dodawanie/edycja/generowanie AI       | Planer Tygodnia           |
-| `FileUpload`     | Upload zdjęcia z walidacją            | MealDialog                |
-| `ProgressBar`    | Wykres makr vs cel                    | Dashboard, Planner        |
-| `fetchWithAuth`  | Wrapper na `fetch` z 401 retry        | lib                       |
-| `Pagination`     | Paginacja list                        | Historia                  |
-| `ThemeSwitch`    | Przełącznik trybu ciemnego            | Profil, Navbar            |
-| `LocaleProvider` | Dostarcza teksty PL                   | Global                    |
+| Komponent        | Cel                                   | Gdzie używany       |
+| ---------------- | ------------------------------------- | ------------------- |
+| `AuthProvider`   | Zarządzanie sesją, odświeżanie tokenu | Global wrapper      |
+| `ProtectedRoute` | Blokada tras dla nieauth.             | Wszystkie trasy app |
+| `ShellLayout`    | Layout z nawigacją                    | Global              |
+| `AccessibleGrid` | Semantyczna siatka posiłków           | Planer Tygodnia     |
+| `MealCard`       | Widok pojedynczego posiłku w gridzie  | Planer Tygodnia     |
+| `MealDialog`     | Dodawanie/edycja/generowanie AI       | Planer Tygodnia     |
+| `FileUpload`     | Upload zdjęcia z walidacją            | MealDialog          |
+| `ProgressBar`    | Wykres makr vs cel                    | Dashboard, Planner  |
+| `fetchWithAuth`  | Wrapper na `fetch` z 401 retry        | lib                 |
+| `ThemeSwitch`    | Przełącznik trybu ciemnego            | Profil, Navbar      |
+| `LocaleProvider` | Dostarcza teksty PL                   | Global              |
 
 ---
 

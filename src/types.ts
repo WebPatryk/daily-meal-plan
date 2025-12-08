@@ -74,12 +74,6 @@ export interface AiGenerateMealCommand {
   meal_type: MealType;
 }
 
-// PUT /meals/{meal_id}/image → we only expose the raw `File`/`Blob` to the API layer;
-// handling happens in the route code.
-export interface PutMealImageCommand {
-  file: Blob; // ≤ 1 MB validated at the handler level
-}
-
 // ---------------------------------------------------------------------------
 // USER GOAL
 // ---------------------------------------------------------------------------
@@ -112,7 +106,6 @@ export interface PaginatedResponse<T> {
 
 export interface WeeksQuery extends PaginationQuery {
   start_date?: string; // filter by ISO date string (YYYY-MM-DD)
-  history?: boolean;
   sort?: "start_date:asc" | "start_date:desc";
 }
 

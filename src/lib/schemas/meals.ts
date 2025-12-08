@@ -29,9 +29,6 @@ export const MealFormSchema = z.object({
   ingredients: z.string().optional(),
 
   steps: z.string().optional(),
-
-  // File validation happens separately on the client side (size ≤ 1MB, type image/*)
-  image: z.any().optional(),
 });
 
 /**

@@ -157,7 +157,7 @@ export type MealFormValues = z.infer<typeof MealFormSchema>;
 
 | Akcja                   | Endpoint                                | Metoda | Typy żądania                   | Typy odpowiedzi           |
 | ----------------------- | --------------------------------------- | ------ | ------------------------------ | ------------------------- |
-| POBIERZ bieżący tydzień | `/api/weeks?limit=1&history=false`      | GET    | _brak_                         | `PaginatedResponse<Week>` |
+| POBIERZ bieżący tydzień | `/api/weeks?limit=1`                    | GET    | _brak_                         | `PaginatedResponse<Week>` |
 | POBIERZ posiłki         | `/api/weeks/{week_id}/meals` (przyszły) | GET    | _brak_                         | `MealDto[]`               |
 | DODAJ posiłek           | `/api/weeks/{week_id}/meals`            | POST   | `CreateMealCommand`            | `MealDto`                 |
 | EDYTUJ posiłek          | `/api/meals/{meal_id}`                  | PATCH  | `UpdateMealCommand`            | `MealDto`                 |

@@ -6,7 +6,6 @@ import { MealDialog } from "./MealDialog";
 import { GenerateMealDialog } from "./GenerateMealDialog";
 import type { GridCellVM, DayOfWeek, MealType, MealDto } from "../../types";
 import type { MealFormValues } from "../../lib/schemas/meals";
-import { uploadMealImage } from "../../lib/apiClient";
 
 // Dialog modes
 type DialogMode = "closed" | "add" | "edit" | "generate";
@@ -75,14 +74,6 @@ export function WeekPlannerLayout() {
           source: "manual",
           image_path: null,
         });
-
-        // Handle image upload if provided
-        if (data.image && data.image[0] instanceof File) {
-          const meal = state.meals.find((m) => m.day_of_week === day && m.meal_type === mealType);
-          if (meal) {
-            await uploadMealImage(String(meal.meal_id), data.image[0]);
-          }
-        }
       } else if (dialogState.mode === "edit" && dialogState.meal) {
         // Update existing meal
         await updateMeal(String(dialogState.meal.meal_id), {
@@ -94,11 +85,6 @@ export function WeekPlannerLayout() {
           ingredients,
           steps,
         });
-
-        // Handle image upload if provided
-        if (data.image && data.image[0] instanceof File) {
-          await uploadMealImage(String(dialogState.meal.meal_id), data.image[0]);
-        }
       }
 
       setDialogState({ mode: "closed" });

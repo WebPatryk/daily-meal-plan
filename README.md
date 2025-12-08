@@ -24,9 +24,8 @@ Key capabilities:
 
 - Weekly planner grid (5 meals × 7 days) focused on the current week.
 - AI meal generation with macronutrient targets.
-- Manual meal editing, including images ≤ 1 MB stored in Supabase Storage.
+- Manual meal editing.
 - Authentication via email + password (Supabase Auth).
-- Historical view of past weeks.
 
 ---
 
@@ -51,6 +50,8 @@ Key capabilities:
 
 - Node.js 22.14.0 and npm ≥ 10 (or pnpm/yarn if preferred)
 - Supabase project with `SUPABASE_URL` and `SUPABASE_KEY`
+- OpenRouter API key for AI meal generation
+- See [ENVIRONMENT_VARIABLES.md](ENVIRONMENT_VARIABLES.md) for detailed setup instructions
 
 ### Installation
 
@@ -62,9 +63,9 @@ $ cd daily-meal-plan
 # 2. Install dependencies
 $ npm install
 
-# 3. Copy environment variables
-$ cp .env.example .env
-# edit .env with your Supabase credentials
+# 3. Set up environment variables
+# Create a .env file with required variables
+# See ENVIRONMENT_VARIABLES.md for details
 
 # 4. Start the dev server
 $ npm run dev
@@ -97,8 +98,6 @@ npm run format    # Prettier – format all files
 - Weekly planner grid with current week view only.
 - Manual meal addition & editing.
 - AI meal generation (name, macros, ingredients, steps, SVG icon).
-- Image upload ≤ 1 MB stored in Supabase Storage.
-- History tab displaying read-only past weeks.
 
 ### Product boundaries
 
