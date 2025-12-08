@@ -77,3 +77,4 @@ export function useRegister(options: UseRegisterOptions = {}): UseRegisterReturn
     clearError,
   };
 }
+

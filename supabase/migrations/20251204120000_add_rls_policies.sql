@@ -253,3 +253,4 @@ create policy "anon_users_no_delete_weeks"
   to anon
   using (false);
 
+

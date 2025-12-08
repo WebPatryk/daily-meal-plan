@@ -196,13 +196,13 @@ export interface OpenRouterRequestPayload {
 export interface OpenRouterResponse {
   id: string;
   model: string;
-  choices: Array<{
+  choices: {
     message: {
       role: "assistant";
       content: string;
     };
     finish_reason: string;
-  }>;
+  }[];
   usage: {
     prompt_tokens: number;
     completion_tokens: number;

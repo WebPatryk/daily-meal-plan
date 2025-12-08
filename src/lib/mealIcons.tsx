@@ -34,7 +34,7 @@ export function extractIconName(imagePath: string | null | undefined): MealIconN
 /**
  * Returns the appropriate SVG icon for a meal icon category
  */
-export function getMealIcon(iconName: MealIconName, className: string = "w-16 h-16 text-primary"): JSX.Element {
+export function getMealIcon(iconName: MealIconName, className = "w-16 h-16 text-primary"): JSX.Element {
   switch (iconName) {
     case "breakfast":
       return (
@@ -143,7 +143,7 @@ export function getMealIcon(iconName: MealIconName, className: string = "w-16 h-
 /**
  * Returns a placeholder/default icon when image is not available
  */
-export function getPlaceholderIcon(className: string = "w-12 h-12 text-muted-foreground/40"): JSX.Element {
+export function getPlaceholderIcon(className = "w-12 h-12 text-muted-foreground/40"): JSX.Element {
   return (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
@@ -155,3 +155,4 @@ export function getPlaceholderIcon(className: string = "w-12 h-12 text-muted-for
     </svg>
   );
 }
+

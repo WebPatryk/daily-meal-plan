@@ -148,3 +148,4 @@ describe("LogoutButton", () => {
     consoleErrorSpy.mockRestore();
   });
 });
+

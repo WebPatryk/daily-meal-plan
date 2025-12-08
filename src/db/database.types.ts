@@ -1,6 +1,6 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
       meals: {
@@ -131,21 +131,15 @@ export type Database = {
         ];
       };
     };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      [_ in never]: never;
-    };
+    Views: Record<never, never>;
+    Functions: Record<never, never>;
     Enums: {
       day_of_week_enum: "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday";
       meal_type_enum: "breakfast" | "second_breakfast" | "lunch" | "snack" | "dinner";
     };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
+    CompositeTypes: Record<never, never>;
   };
-};
+}
 
 type PublicSchema = Database[Extract<keyof Database, "public">];
 
@@ -218,3 +212,4 @@ export type Enums<
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never;
+
