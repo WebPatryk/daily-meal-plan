@@ -19,7 +19,7 @@ export default defineConfig({
 
     // Konfiguracja coverage
     coverage: {
-      provider: "v8",
+      provider: "istanbul",
       reporter: ["text", "json", "html"],
       exclude: ["node_modules/", "src/test/", "**/*.d.ts", "**/*.config.*", "**/mockData/**", "dist/"],
     },
